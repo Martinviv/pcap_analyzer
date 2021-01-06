@@ -1,0 +1,18 @@
+[filter]
+IPv4 = T
+TCP = F
+UDP = F
+adresse = F
+SYN = F
+
+[adresses]
+src = []
+dst = []
+
+[graph]
+throughput = T
+interval_throughput = 1
+size = F
+
+[data]
+csv = true
