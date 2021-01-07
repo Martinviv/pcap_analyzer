@@ -3,7 +3,7 @@ import graph
 import analysis_packet
 import analysis_data
 import configparser
-from filter import filter_pcap
+import filter
 
 
 def execute_config(filename_config, filename_data):
@@ -49,6 +49,29 @@ def option_out_data(timestamp, tcp_payloads, size_payload_graph, throughput_grap
         analysis_data.to_csv_time_size(tcp_payloads)
 
 
+def option_filter(pkt_data, client, server, TCP, UDP, SYN, IPv4):
+    """
+    :param pkt_data:
+    :param client:
+    :param server:
+    :param TCP:
+    :param UDP:
+    :param SYN:
+    :param IPv4:
+    :return:
+    """
+    if IPv4 == 'T':
+        if not filter.ipv4(pkt_data):
+            return False
+        if TCP == 'T':
+            if not filter.tcp(pkt_data):
+                return False
+            if SYN == 'T':
+                if not filter.syn(pkt_data):
+                    return False
+    return True
+
+
 def launch_analysis(file_name, client, server, TCP, UDP, SYN, IPv4,
                     size_payload_graph, throughput_graph, interval_throughput, csv):
     """
@@ -78,7 +101,7 @@ def launch_analysis(file_name, client, server, TCP, UDP, SYN, IPv4,
     for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
         count += 1
 
-        if filter_pcap(pkt_data):
+        if option_filter(pkt_data, client, server, TCP, UDP, SYN, IPv4):
 
             interesting_packet_count += 1
             if interesting_packet_count == 1:
@@ -98,7 +121,7 @@ def launch_analysis(file_name, client, server, TCP, UDP, SYN, IPv4,
 
 
 if __name__ == '__main__':
-    client = '192.168.137.1:1900'
-    server = '192.168.137.16:51575'
-    execute_config('c1.txt', 'light_on_off.pcap')
+    # client = '192.168.137.1:1900'
+    # server = '192.168.137.16:51575'
+    execute_config('c1.ini', 'light_on_off.pcap')
 
