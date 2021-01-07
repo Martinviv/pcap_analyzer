@@ -79,12 +79,13 @@ def ipv4(pkt_data):
     return ether_pkt.type == constants.IPV4
 
 
-def tcp(pkt_data):
+def protocol(pkt_data, protocol_name):
     """
+    :param protocol_name:
     :param pkt_data:
     :return: true if we have tcp
     :rtype: bool
     """
     ether_pkt = Ether(pkt_data)
     ip_pkt = ether_pkt[IP]
-    return ip_pkt.proto == constants.TCP
+    return ip_pkt.proto == protocol_name

@@ -1,9 +1,9 @@
 from scapy.utils import RawPcapReader
 import graph
-import analysis_packet
 import analysis_data
 import configparser
 import filter
+import constants
 
 
 def execute_config(filename_config, filename_data):
@@ -64,7 +64,7 @@ def option_filter(pkt_data, client, server, TCP, UDP, SYN, IPv4):
         if not filter.ipv4(pkt_data):
             return False
         if TCP == 'T':
-            if not filter.tcp(pkt_data):
+            if not filter.protocol(pkt_data,constants.TCP):
                 return False
             if SYN == 'T':
                 if not filter.syn(pkt_data):
@@ -96,7 +96,7 @@ def launch_analysis(file_name, client, server, TCP, UDP, SYN, IPv4,
     count = 0
     interesting_packet_count = 0
     timestamp = []
-    tcp_payloads = []
+    tuple_pkt_data_time = []
 
     for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
         count += 1
@@ -108,20 +108,19 @@ def launch_analysis(file_name, client, server, TCP, UDP, SYN, IPv4,
                 first_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
                 first_pkt_ordinal = count
             timestamp.append(pkt_metadata.sec)
-            tcp_payloads.append((pkt_metadata.sec, analysis_packet.get_tcp_payload_size(pkt_data)))
+            tuple_pkt_data_time.append((pkt_metadata.sec, pkt_data))
             last_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
             last_pkt_ordinal = count
 
-    option_out_data(timestamp, tcp_payloads, size_payload_graph, throughput_graph, interval_throughput,csv)
+    option_out_data(timestamp, tuple_pkt_data_time, size_payload_graph, throughput_graph, interval_throughput,csv)
 
     print('{} contains {} packets ({} interesting)'. format(file_name, count, interesting_packet_count))
     print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
     print(' Last packet in connection: Packet #{} {}'.format(last_pkt_ordinal,last_pkt_timestamp))
-    print(tcp_payloads)
 
 
 if __name__ == '__main__':
     # client = '192.168.137.1:1900'
     # server = '192.168.137.16:51575'
-    execute_config('c1.ini', 'light_on_off.pcap')
+    execute_config('c1.ini', 'camera_format.pcap')
 

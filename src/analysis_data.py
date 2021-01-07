@@ -4,7 +4,7 @@ import csv
 def to_csv_time_size(tcp_payload):
     """
     :param tcp_payload:
-    :return: create csv file to the out directory
+    :return: create csv file to the out directory with time packet and tcp payload packet
     """
     with open('out/data_payload.csv', 'w') as out:
         csv_out = csv.writer(out)
