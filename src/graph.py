@@ -15,15 +15,16 @@ def throughput_graph(data, leg_x, leg_y):
     plt.show()
 
 
-def size_payload_graph(data, leg_x, leg_y):
+def size_payload_graph(data, leg_x, leg_y, protocol):
     """
+    :param protocol:
     :param collection.iterable data: (x,y) tuple of coordinates where x is time and y pkt_data
     :param str leg_x: legend axe x
     :param str leg_y: legend axe y
     :return: set of coordinates where x time and y tcp payload size and show graph
     """
     x_val = [x[0] for x in data]
-    y_val = [analysis_packet.get_tcp_payload_size(x[1]) for x in data]
+    y_val = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in data]
     # change quality
     plt.figure(figsize=(14, 14))
     plt.grid()

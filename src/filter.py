@@ -4,6 +4,9 @@ import constants
 
 
 class Filter:
+    """
+    Create a filter with boolean instance
+    """
 
     def __init__(self, IPv4, TCP, UDP, SYN):
         self.IPv4 = IPv4

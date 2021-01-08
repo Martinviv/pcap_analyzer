@@ -4,6 +4,7 @@ import analysis_data
 import configparser
 from filter import Filter
 import constants
+from scapy.layers.inet import UDP, TCP
 
 
 def execute_config(filename_config, filename_data):
@@ -23,20 +24,21 @@ def execute_config(filename_config, filename_data):
     filter = Filter(IPv4, TCP, UDP, SYN)
 
     throughput = convert_string_to_boolean_filter(config_parser, 'graph', 'throughput')
-    size_payload = convert_string_to_boolean_filter(config_parser, 'graph', 'size')
+    size_payload_tcp = convert_string_to_boolean_filter(config_parser, 'graph', 'size_payload_tcp')
+    size_payload_udp = convert_string_to_boolean_filter(config_parser, 'graph', 'size_payload_udp')
     csv = convert_string_to_boolean_filter(config_parser, 'data', 'csv')
 
     interval_throughput = config_parser.get('graph', 'interval_throughput')
 
     launch_analysis('data/' + filename_data, 'null', 'null',
-                    filter, size_payload, throughput, interval_throughput, csv)
+                    filter, size_payload_tcp, size_payload_udp, throughput, interval_throughput, csv)
 
 
 def convert_string_to_boolean_filter(config_parser, section, filter_name):
     """
     :param config_parser:
-    :param section:
-    :param filter_name:
+    :param section: section in the config file
+    :param filter_name: name of the option parameter
     :return:
     """
     if config_parser.get(section, filter_name) == 'T':
@@ -45,11 +47,10 @@ def convert_string_to_boolean_filter(config_parser, section, filter_name):
         return False
 
 
-def option_out_data(timestamp, tcp_payloads, size_payload_graph, throughput_graph, interval_throughput, csv):
+def option_out_data(timestamp, tcp_payloads, size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
     """
     :param timestamp:
     :param tcp_payloads:
-    :param size_payload_graph:
     :param throughput_graph:
     :param interval_throughput:
     :param csv:
@@ -60,8 +61,11 @@ def option_out_data(timestamp, tcp_payloads, size_payload_graph, throughput_grap
     if throughput_graph:
         timestamp = analysis_data.time_interval(interval, timestamp)
         graph.throughput_graph(timestamp, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
-    if size_payload_graph:
-        graph.size_payload_graph(tcp_payloads, "hh", "yy")
+    if size_payload_tcp_graph:
+        graph.size_payload_graph(tcp_payloads, "hh", "yy", TCP)
+    if size_payload_udp_graph:
+        graph.size_payload_graph(tcp_payloads, "hh", "yy", UDP)
+
     if csv:
         analysis_data.to_csv_time_size(tcp_payloads)
 
@@ -93,12 +97,13 @@ def option_filter(pkt_data, client, server, filter):
 
 
 def launch_analysis(file_name, client, server, filter,
-                    size_payload_graph, throughput_graph, interval_throughput, csv):
+                    size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
     """
+    :param size_payload_udp_graph:
+    :param size_payload_tcp_graph:
     :param filter:
     :param interval_throughput:
     :param csv:
-    :param size_payload_graph:
     :param throughput_graph:
     :param str file_name: pcap file for analysis
     :param str client: address ip with port for filtering
@@ -129,7 +134,8 @@ def launch_analysis(file_name, client, server, filter,
             last_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
             last_pkt_ordinal = count
 
-    option_out_data(timestamp, tuple_pkt_data_time, size_payload_graph, throughput_graph, interval_throughput, csv)
+    option_out_data(timestamp, tuple_pkt_data_time, size_payload_tcp_graph,size_payload_udp_graph,
+                    throughput_graph, interval_throughput, csv)
 
     print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
     print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
@@ -139,4 +145,4 @@ def launch_analysis(file_name, client, server, filter,
 if __name__ == '__main__':
     # client = '192.168.137.1:1900'
     # server = '192.168.137.16:51575'
-    execute_config('c1.ini', 'light_on_off.pcap')
+    execute_config('c1.ini', 'camera_format.pcap')
