@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import analysis_packet
+import analysis_data
 
 
 def throughput_graph(data, leg_x, leg_y):
@@ -14,6 +15,10 @@ def throughput_graph(data, leg_x, leg_y):
     plt.xlabel(leg_x)
     plt.show()
 
+    plt.plot(analysis_data.cusum(data))
+    plt.ylabel(leg_y)
+    plt.xlabel(leg_x)
+    plt.show()
 
 def size_payload_graph(data, leg_x, leg_y, protocol):
     """

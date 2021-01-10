@@ -134,7 +134,7 @@ def launch_analysis(file_name, client, server, filter,
             last_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
             last_pkt_ordinal = count
 
-    option_out_data(timestamp, tuple_pkt_data_time, size_payload_tcp_graph,size_payload_udp_graph,
+    option_out_data(timestamp, tuple_pkt_data_time, size_payload_tcp_graph, size_payload_udp_graph,
                     throughput_graph, interval_throughput, csv)
 
     print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
@@ -145,4 +145,5 @@ def launch_analysis(file_name, client, server, filter,
 if __name__ == '__main__':
     # client = '192.168.137.1:1900'
     # server = '192.168.137.16:51575'
-    execute_config('c1.ini', 'camera_format.pcap')
+    # execute_config('c1.ini', 'camera_light_on_off.pcap')
+    execute_config('c1.ini', 'camera_movement.pcap')
