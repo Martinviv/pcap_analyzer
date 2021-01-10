@@ -161,6 +161,23 @@
 <div class="section" id="module-main">
 <span id="main-py"></span><h1>main.py<a class="headerlink" href="#module-main" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
+<dt id="main.convert_string_to_boolean_filter">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">convert_string_to_boolean_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config_parser</span></em>, <em class="sig-param"><span class="n">section</span></em>, <em class="sig-param"><span class="n">filter_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.convert_string_to_boolean_filter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_parser</strong> – </p></li>
+<li><p><strong>section</strong> – section in the config file</p></li>
+<li><p><strong>filter_name</strong> – name of the option parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="main.execute_config">
 <code class="sig-prename descclassname">main.</code><code class="sig-name descname">execute_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename_config</span></em>, <em class="sig-param"><span class="n">filename_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.execute_config" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -178,17 +195,15 @@
 
 <dl class="py function">
 <dt id="main.launch_analysis">
-<code class="sig-prename descclassname">main.</code><code class="sig-name descname">launch_analysis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">server</span></em>, <em class="sig-param"><span class="n">TCP</span></em>, <em class="sig-param"><span class="n">UDP</span></em>, <em class="sig-param"><span class="n">SYN</span></em>, <em class="sig-param"><span class="n">IPv4</span></em>, <em class="sig-param"><span class="n">size_payload_graph</span></em>, <em class="sig-param"><span class="n">throughput_graph</span></em>, <em class="sig-param"><span class="n">interval_throughput</span></em>, <em class="sig-param"><span class="n">csv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.launch_analysis" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">launch_analysis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">server</span></em>, <em class="sig-param"><span class="n">filter</span></em>, <em class="sig-param"><span class="n">size_payload_tcp_graph</span></em>, <em class="sig-param"><span class="n">size_payload_udp_graph</span></em>, <em class="sig-param"><span class="n">throughput_graph</span></em>, <em class="sig-param"><span class="n">interval_throughput</span></em>, <em class="sig-param"><span class="n">csv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.launch_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>size_payload_udp_graph</strong> – </p></li>
+<li><p><strong>size_payload_tcp_graph</strong> – </p></li>
+<li><p><strong>filter</strong> – </p></li>
 <li><p><strong>interval_throughput</strong> – </p></li>
 <li><p><strong>csv</strong> – </p></li>
-<li><p><strong>IPv4</strong> – </p></li>
-<li><p><strong>SYN</strong> – </p></li>
-<li><p><strong>UDP</strong> – </p></li>
-<li><p><strong>TCP</strong> – </p></li>
-<li><p><strong>size_payload_graph</strong> – </p></li>
 <li><p><strong>throughput_graph</strong> – </p></li>
 <li><p><strong>file_name</strong> (<em>str</em>) – pcap file for analysis</p></li>
 <li><p><strong>client</strong> (<em>str</em>) – address ip with port for filtering</p></li>
@@ -203,17 +218,14 @@
 
 <dl class="py function">
 <dt id="main.option_filter">
-<code class="sig-prename descclassname">main.</code><code class="sig-name descname">option_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">server</span></em>, <em class="sig-param"><span class="n">TCP</span></em>, <em class="sig-param"><span class="n">UDP</span></em>, <em class="sig-param"><span class="n">SYN</span></em>, <em class="sig-param"><span class="n">IPv4</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.option_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">option_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">server</span></em>, <em class="sig-param"><span class="n">filter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.option_filter" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>filter</strong> – </p></li>
 <li><p><strong>pkt_data</strong> – </p></li>
 <li><p><strong>client</strong> – </p></li>
 <li><p><strong>server</strong> – </p></li>
-<li><p><strong>TCP</strong> – </p></li>
-<li><p><strong>UDP</strong> – </p></li>
-<li><p><strong>SYN</strong> – </p></li>
-<li><p><strong>IPv4</strong> – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -224,13 +236,12 @@
 
 <dl class="py function">
 <dt id="main.option_out_data">
-<code class="sig-prename descclassname">main.</code><code class="sig-name descname">option_out_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamp</span></em>, <em class="sig-param"><span class="n">tcp_payloads</span></em>, <em class="sig-param"><span class="n">size_payload_graph</span></em>, <em class="sig-param"><span class="n">throughput_graph</span></em>, <em class="sig-param"><span class="n">interval_throughput</span></em>, <em class="sig-param"><span class="n">csv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.option_out_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">option_out_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamp</span></em>, <em class="sig-param"><span class="n">tcp_payloads</span></em>, <em class="sig-param"><span class="n">size_payload_tcp_graph</span></em>, <em class="sig-param"><span class="n">size_payload_udp_graph</span></em>, <em class="sig-param"><span class="n">throughput_graph</span></em>, <em class="sig-param"><span class="n">interval_throughput</span></em>, <em class="sig-param"><span class="n">csv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.option_out_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>timestamp</strong> – </p></li>
 <li><p><strong>tcp_payloads</strong> – </p></li>
-<li><p><strong>size_payload_graph</strong> – </p></li>
 <li><p><strong>throughput_graph</strong> – </p></li>
 <li><p><strong>interval_throughput</strong> – </p></li>
 <li><p><strong>csv</strong> – </p></li>
@@ -245,9 +256,13 @@
 </div>
 <div class="section" id="module-filter">
 <span id="filter-py"></span><h1>filter.py<a class="headerlink" href="#module-filter" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt id="filter.address_dst">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">address_dst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">server_ip</span></em>, <em class="sig-param"><span class="n">client_ip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.address_dst" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt id="filter.Filter">
+<em class="property">class </em><code class="sig-prename descclassname">filter.</code><code class="sig-name descname">Filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IPv4</span></em>, <em class="sig-param"><span class="n">TCP</span></em>, <em class="sig-param"><span class="n">UDP</span></em>, <em class="sig-param"><span class="n">SYN</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a filter with boolean instance</p>
+<dl class="py method">
+<dt id="filter.Filter.address_dst">
+<code class="sig-name descname">address_dst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">server_ip</span></em>, <em class="sig-param"><span class="n">client_ip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.address_dst" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -265,9 +280,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.address_src">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">address_src</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">server_ip</span></em>, <em class="sig-param"><span class="n">client_ip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.address_src" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.address_src">
+<code class="sig-name descname">address_src</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">server_ip</span></em>, <em class="sig-param"><span class="n">client_ip</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.address_src" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -285,9 +300,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.ipv4">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">ipv4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.ipv4" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.ipv4">
+<code class="sig-name descname">ipv4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.ipv4" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pkt_data</strong> – </p>
@@ -301,9 +316,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.port_dst">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">port_dst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client_port</span></em>, <em class="sig-param"><span class="n">server_port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.port_dst" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.port_dst">
+<code class="sig-name descname">port_dst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client_port</span></em>, <em class="sig-param"><span class="n">server_port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.port_dst" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -321,9 +336,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.port_src">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">port_src</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client_port</span></em>, <em class="sig-param"><span class="n">server_port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.port_src" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.port_src">
+<code class="sig-name descname">port_src</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">client_port</span></em>, <em class="sig-param"><span class="n">server_port</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.port_src" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -341,9 +356,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.protocol">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">protocol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">protocol_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.protocol" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.protocol">
+<code class="sig-name descname">protocol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">protocol_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.protocol" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -360,9 +375,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="filter.syn">
-<code class="sig-prename descclassname">filter.</code><code class="sig-name descname">syn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.syn" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="filter.Filter.syn">
+<code class="sig-name descname">syn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#filter.Filter.syn" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pkt_data</strong> – </p>
@@ -376,15 +391,18 @@
 </dl>
 </dd></dl>
 
+</dd></dl>
+
 </div>
 <div class="section" id="module-graph">
 <span id="graph-py"></span><h1>graph.py<a class="headerlink" href="#module-graph" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="graph.size_payload_graph">
-<code class="sig-prename descclassname">graph.</code><code class="sig-name descname">size_payload_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">leg_x</span></em>, <em class="sig-param"><span class="n">leg_y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.size_payload_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">graph.</code><code class="sig-name descname">size_payload_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">leg_x</span></em>, <em class="sig-param"><span class="n">leg_y</span></em>, <em class="sig-param"><span class="n">protocol</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.size_payload_graph" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> – </p></li>
 <li><p><strong>data</strong> (<em>collection.iterable</em>) – (x,y) tuple of coordinates where x is time and y pkt_data</p></li>
 <li><p><strong>leg_x</strong> (<em>str</em>) – legend axe x</p></li>
 <li><p><strong>leg_y</strong> (<em>str</em>) – legend axe y</p></li>
@@ -418,10 +436,13 @@
 <span id="analysis-packet-py"></span><h1>analysis_packet.py<a class="headerlink" href="#module-analysis_packet" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="analysis_packet.get_tcp_payload_size">
-<code class="sig-prename descclassname">analysis_packet.</code><code class="sig-name descname">get_tcp_payload_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_packet.get_tcp_payload_size" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">analysis_packet.</code><code class="sig-name descname">get_tcp_payload_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pkt_data</span></em>, <em class="sig-param"><span class="n">protocol</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_packet.get_tcp_payload_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pkt_data</strong> – one packet from the file</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> – choose protocol (UDP or TCP)</p></li>
+<li><p><strong>pkt_data</strong> – one packet from the file</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>tcp payload size in byte</p>
@@ -435,6 +456,55 @@
 </div>
 <div class="section" id="module-analysis_data">
 <span id="analysis-data-py"></span><h1>analysis_data.py<a class="headerlink" href="#module-analysis_data" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="analysis_data.cusum">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">cusum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.cusum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cusum value for all data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="analysis_data.cusum_calculation_lo">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">cusum_calculation_lo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rate</span></em>, <em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">previous</span></em>, <em class="sig-param"><span class="n">variance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.cusum_calculation_lo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rate</strong> – rate from one sequence</p></li>
+<li><p><strong>mean</strong> – packet rate in mean to detect variation</p></li>
+<li><p><strong>previous</strong> – value cusum from the previous calculation</p></li>
+<li><p><strong>variance</strong> – to evalute the k for the tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cusum value for the rate interval</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="analysis_data.cusum_calculation_up">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">cusum_calculation_up</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rate</span></em>, <em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">previous</span></em>, <em class="sig-param"><span class="n">variance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.cusum_calculation_up" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rate</strong> – rate from one sequence</p></li>
+<li><p><strong>mean</strong> – packet rate in mean to detect variation</p></li>
+<li><p><strong>previous</strong> – value cusum from the previous calculation</p></li>
+<li><p><strong>variance</strong> – to evalute the k for the tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cusum value for the rate interval</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt id="analysis_data.time_interval">
 <code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">time_interval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">second</span></em>, <em class="sig-param"><span class="n">timestamp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.time_interval" title="Permalink to this definition">¶</a></dt>

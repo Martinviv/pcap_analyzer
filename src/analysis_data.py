@@ -31,15 +31,38 @@ def time_interval(second, timestamp):
 
 
 def cusum(data):
+    """
+    :param data:
+    :return: cusum value for all data
+    """
     cus = [0]
     for i in range(1, len(data)-1):
-        cus.append(cusum_calculation_up(data[i], statistics.mean(data) , cus[i-1]))
+        cus.append(cusum_calculation_up(data[i], statistics.mean(data),
+                                        cus[i-1], statistics.stdev(data)))
     return cus
 
 
-def cusum_calculation_up(bitrate, mean, previous):
-    return max(0, previous+bitrate-mean)
+def cusum_calculation_up(rate, mean, previous, variance):
+    """
+    :param rate: rate from one sequence
+    :param mean: packet rate in mean to detect variation
+    :param previous: value cusum from the previous calculation
+    :param variance: to evalute the k for the tolerance
+    :return: cusum value for the rate interval
+    """
+    # mou 1 or 1/2 standart deviantion
+    k = 0.5*variance
+    return max(0, previous + rate - mean - k)
 
 
-def cusum_calculation_lo(bitrate, mean, previous):
-    return max(0, previous-bitrate+mean)
+def cusum_calculation_lo(rate, mean, previous, variance):
+    """
+    :param rate: rate from one sequence
+    :param mean: packet rate in mean to detect variation
+    :param previous: value cusum from the previous calculation
+    :param variance: to evalute the k for the tolerance
+    :return: cusum value for the rate interval
+    """
+    # mou 1 or 1/2 standart deviantion
+    k = 0.5*variance
+    return max(0, previous - rate + mean - k)

@@ -20,6 +20,7 @@ def throughput_graph(data, leg_x, leg_y):
     plt.xlabel(leg_x)
     plt.show()
 
+
 def size_payload_graph(data, leg_x, leg_y, protocol):
     """
     :param protocol:

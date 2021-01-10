@@ -17,6 +17,7 @@ main.py
 filter.py
 =========================================
 .. automodule:: filter
+.. autoclass:: Filter
     :members:
 
 graph.py
