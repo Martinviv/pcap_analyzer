@@ -57,7 +57,7 @@ def option_out_data(timestamp, tcp_payloads, size_payload_tcp_graph, size_payloa
     :return:
     """
     interval = int(interval_throughput)
-    print(throughput_graph)
+    # print(throughput_graph)
     if throughput_graph:
         timestamp = analysis_data.time_interval(interval, timestamp)
         graph.throughput_graph(timestamp, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
@@ -145,5 +145,5 @@ def launch_analysis(file_name, client, server, filter,
 if __name__ == '__main__':
     # client = '192.168.137.1:1900'
     # server = '192.168.137.16:51575'
-    execute_config('c1.ini', 'camera_light_on_off.pcap')
-    # execute_config('c1.ini', 'camera_movement.pcap')
+    # execute_config('c1.ini', 'camera_light_on_off.pcap')
+    execute_config('c1.ini', 'camera_movement.pcap')

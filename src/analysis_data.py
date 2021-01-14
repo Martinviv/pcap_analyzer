@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import statistics
 
+
 def to_csv_time_size(tcp_payload):
     """
     :param tcp_payload:
@@ -50,7 +51,7 @@ def cusum_calculation_up(rate, mean, previous, variance):
     :param variance: to evalute the k for the tolerance
     :return: cusum value for the rate interval
     """
-    # mou 1 or 1/2 standart deviantion
+    # mou 1 or 1/2 standard deviation
     k = 0.5*variance
     return max(0, previous + rate - mean - k)
 
@@ -66,3 +67,19 @@ def cusum_calculation_lo(rate, mean, previous, variance):
     # mou 1 or 1/2 standart deviantion
     k = 0.5*variance
     return max(0, previous - rate + mean - k)
+
+
+def smooth(data, coefficient):
+    """
+    :param data: axe values that we want smooth
+    :param coefficient: if 3 then x 0 1 2
+    :return: values smoothed
+    """
+    data_smooth = []
+    for pkt in range(len(data)-1-coefficient):
+        sum_smooth = 0
+        for x in range(coefficient):
+            sum_smooth = data[pkt+x]+sum_smooth
+        mean = sum_smooth/coefficient
+        data_smooth.append(mean)
+    return data_smooth
