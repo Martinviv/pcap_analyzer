@@ -30,7 +30,10 @@ def execute_config(filename_config, filename_data):
 
     interval_throughput = config_parser.get('graph', 'interval_throughput')
 
-    launch_analysis('data/' + filename_data, 'null', 'null',
+    client = config_parser.get('addresses', 'src')
+    server = config_parser.get('addresses', 'dst')
+
+    launch_analysis('data/' + filename_data, client, server,
                     filter, size_payload_tcp, size_payload_udp, throughput, interval_throughput, csv)
 
 
@@ -88,6 +91,10 @@ def option_filter(pkt_data, client, server, filter):
             if not filter.TCP:
                 return False
         if filter.TCP:
+            # filter manual
+            #if not filter.address_src(pkt_data, '192.168.137.145', '63.33.131.63'):
+            if not filter.address_dst(pkt_data, client, server):
+                return False
             if not filter.protocol(pkt_data, constants.TCP):
                 return False
             if filter.SYN:
@@ -146,4 +153,6 @@ if __name__ == '__main__':
     # client = '192.168.137.1:1900'
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
-    execute_config('c1.ini', 'camera_movement.pcap')
+    # execute_config('c1.ini', 'camera_movement.pcap')
+    # execute_config('c1.ini', 'camera_light_on_off.pcap')
+    execute_config('c2.ini', 'camera_room.pcap')

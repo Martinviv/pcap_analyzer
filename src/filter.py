@@ -36,7 +36,7 @@ class Filter:
         """
         ether_pkt = Ether(pkt_data)
         ip_pkt = ether_pkt[IP]
-        return (ip_pkt.dst == server_ip) or (ip_pkt.dst == client_ip)
+        return (ip_pkt.dst == server_ip) and (ip_pkt.src == client_ip)
 
     def port_src(self, pkt_data, client_port, server_port):
         """

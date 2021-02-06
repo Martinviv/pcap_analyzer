@@ -25,10 +25,15 @@ def time_interval(second, timestamp):
     start = timestamp[0]
     end = timestamp[len(timestamp)-1]
     packet_per_second = [0]*int(((end-start) * (1 / second)) + 1)
+    realTime = list(range(start, start+len(packet_per_second), 1))
     for x in timestamp:
         packet_per_second[int((x-start) * (1 / second))] += 1
-    print(np.cumsum(packet_per_second))
-    return packet_per_second
+    # print(np.cumsum(packet_per_second))
+    print(len(realTime))
+    print(len(packet_per_second))
+    packet_per_second_tuple = list(zip(realTime, packet_per_second))
+    print(packet_per_second_tuple)
+    return packet_per_second_tuple
 
 
 def cusum(data):
@@ -37,7 +42,7 @@ def cusum(data):
     :return: cusum value for all data
     """
     cus = [0]
-    for i in range(1, len(data)-1):
+    for i in range(1, len(data)):
         cus.append(cusum_calculation_up(data[i], statistics.mean(data),
                                         cus[i-1], statistics.stdev(data)))
     return cus
@@ -75,6 +80,7 @@ def smooth(data, coefficient):
     :param coefficient: if 3 then x 0 1 2
     :return: values smoothed
     """
+
     data_smooth = []
     for pkt in range(len(data)-1-coefficient):
         sum_smooth = 0
