@@ -5,10 +5,10 @@ import analysis_data
 
 def throughput_graph(data, leg_x, leg_y):
     """
-    :param list[int] data: number of packets for each interval where indices correspond of interval number
+    :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
     :param str leg_x: legend axe x
     :param str leg_y: legend axe y
-    :return: plot graph and show the graph
+    :return: plot graph and show the graph (with the cusum graph)
     """
 
     x_val = [x[0] for x in data]
@@ -21,11 +21,11 @@ def throughput_graph(data, leg_x, leg_y):
 
 def size_payload_graph(data, leg_x, leg_y, protocol):
     """
-    :param protocol:
-    :param collection.iterable data: (x,y) tuple of coordinates where x is time and y pkt_data
+    :param protocol: TCP or UDP
+    :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
     :param str leg_x: legend axe x
     :param str leg_y: legend axe y
-    :return: set of coordinates where x time and y tcp payload size and show graph
+    :return: set of coordinates where x time and y tcp payload size (no return) and show graph
     """
     x_val = [x[0] for x in data]
     y_val = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in data]
@@ -37,6 +37,13 @@ def size_payload_graph(data, leg_x, leg_y, protocol):
 
 
 def create_graph(x_val, y_val, title, is_plot):
+    """
+    :param x_val: values x
+    :param y_val: values y
+    :param title: Title that will be show
+    :param is_plot: True if plot graph false for scatter (point)
+    :return: create and show the graph
+    """
     print(x_val)
     # change quality
     plt.figure(figsize=(14, 14))

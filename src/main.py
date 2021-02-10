@@ -9,8 +9,10 @@ from scapy.layers.inet import UDP, TCP
 
 def execute_config(filename_config, filename_data):
     """
-    :param filename_config:
-    :param filename_data:
+    Read the config file and launch the analysis with the parameters chose
+
+    :param filename_config: file with config
+    :param filename_data: file with the data
     :return:
     """
     config_parser = configparser.RawConfigParser()
@@ -42,7 +44,7 @@ def convert_string_to_boolean_filter(config_parser, section, filter_name):
     :param config_parser:
     :param section: section in the config file
     :param filter_name: name of the option parameter
-    :return:
+    :return: T True or False
     """
     if config_parser.get(section, filter_name) == 'T':
         return True
@@ -50,27 +52,28 @@ def convert_string_to_boolean_filter(config_parser, section, filter_name):
         return False
 
 
-def option_out_data(timestamp, tcp_payloads, size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
+def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
     """
-    :param timestamp:
-    :param tcp_payloads:
+    :param size_payload_udp_graph:
+    :param size_payload_tcp_graph:
+    :param data:
     :param throughput_graph:
     :param interval_throughput:
     :param csv:
     :return:
     """
     interval = int(interval_throughput)
-    # print(throughput_graph)
     if throughput_graph:
-        timestamp = analysis_data.time_interval(interval, timestamp)
-        graph.throughput_graph(timestamp, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
+        timestamp = [x[0] for x in data]
+        timestamp_rate = analysis_data.time_interval(interval, timestamp)
+        graph.throughput_graph(timestamp_rate, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
     if size_payload_tcp_graph:
-        graph.size_payload_graph(tcp_payloads, "hh", "yy", TCP)
+        graph.size_payload_graph(data, "hh", "yy", TCP)
     if size_payload_udp_graph:
-        graph.size_payload_graph(tcp_payloads, "hh", "yy", UDP)
+        graph.size_payload_graph(data, "hh", "yy", UDP)
 
     if csv:
-        analysis_data.to_csv_time_size(tcp_payloads)
+        analysis_data.to_csv_time_size(data)
 
 
 def option_filter(pkt_data, client, server, filter):
@@ -92,7 +95,6 @@ def option_filter(pkt_data, client, server, filter):
                 return False
         if filter.TCP:
             # filter manual
-            #if not filter.address_src(pkt_data, '192.168.137.145', '63.33.131.63'):
             if not filter.address_dst(pkt_data, client, server):
                 return False
             if not filter.protocol(pkt_data, constants.TCP):
@@ -106,6 +108,8 @@ def option_filter(pkt_data, client, server, filter):
 def launch_analysis(file_name, client, server, filter,
                     size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
     """
+    After it will apply the out option to have the results of calculation.
+
     :param size_payload_udp_graph:
     :param size_payload_tcp_graph:
     :param filter:
@@ -118,15 +122,34 @@ def launch_analysis(file_name, client, server, filter,
     :return: list of timestamp and tuple (time,tcp payload size) from all filtered packets
     """
 
+    count, first_pkt_ordinal, first_pkt_timestamp, interesting_packet_count, last_pkt_ordinal, last_pkt_timestamp, tuple_pkt_data_time = read_pcap(
+        client, file_name, filter, server)
+
+    option_out_data(tuple_pkt_data_time, size_payload_tcp_graph, size_payload_udp_graph,
+                    throughput_graph, interval_throughput, csv)
+
+    print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
+    print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
+    print(' Last packet in connection: Packet #{} {}'.format(last_pkt_ordinal, last_pkt_timestamp))
+
+
+def read_pcap(client, file_name, filter, server):
+    """
+    The analysis will first select the relevant packets thanks to the option_filter
+    
+    :param client:
+    :param file_name:
+    :param filter:
+    :param server:
+    :return:
+    """
     first_pkt_ordinal = 0
     first_pkt_timestamp = 0
     last_pkt_ordinal = 0
     last_pkt_timestamp = 0
     count = 0
     interesting_packet_count = 0
-    timestamp = []
     tuple_pkt_data_time = []
-
     for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
         count += 1
 
@@ -136,17 +159,10 @@ def launch_analysis(file_name, client, server, filter,
             if interesting_packet_count == 1:
                 first_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
                 first_pkt_ordinal = count
-            timestamp.append(pkt_metadata.sec)
             tuple_pkt_data_time.append((pkt_metadata.sec, pkt_data))
             last_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
             last_pkt_ordinal = count
-
-    option_out_data(timestamp, tuple_pkt_data_time, size_payload_tcp_graph, size_payload_udp_graph,
-                    throughput_graph, interval_throughput, csv)
-
-    print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
-    print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
-    print(' Last packet in connection: Packet #{} {}'.format(last_pkt_ordinal, last_pkt_timestamp))
+    return count, first_pkt_ordinal, first_pkt_timestamp, interesting_packet_count, last_pkt_ordinal, last_pkt_timestamp, tuple_pkt_data_time
 
 
 if __name__ == '__main__':
@@ -154,5 +170,5 @@ if __name__ == '__main__':
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-    # execute_config('c1.ini', 'camera_light_on_off.pcap')
-    execute_config('c2.ini', 'camera_room.pcap')
+     execute_config('c1.ini', 'camera_light_on_off.pcap')
+    # execute_config('c2.ini', 'camera_on_off_tcp.pcap')

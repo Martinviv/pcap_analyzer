@@ -6,7 +6,7 @@ def get_tcp_payload_size(pkt_data, protocol):
     """
     :param protocol: choose protocol (UDP or TCP)
     :param pkt_data: one packet from the file
-    :return: tcp payload size in byte
+    :return: packets payload size in byte
     :rtype: int
     """
     ether_pkt = Ether(pkt_data)
