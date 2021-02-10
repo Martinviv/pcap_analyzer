@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import analysis_packet
 import analysis_data
+import statistics
 
 
 def throughput_graph(data, leg_x, leg_y):
@@ -10,13 +11,13 @@ def throughput_graph(data, leg_x, leg_y):
     :param str leg_y: legend axe y
     :return: plot graph and show the graph (with the cusum graph)
     """
-
     x_val = [x[0] for x in data]
     y_val = [x[1] for x in data]
     create_graph(x_val, y_val, "Throughput", True)
 
     # cusum
-    create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
+    # create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
+    statistics.bimodal(y_val)
 
 
 def size_payload_graph(data, leg_x, leg_y, protocol):

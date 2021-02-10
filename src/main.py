@@ -3,7 +3,8 @@ import graph
 import analysis_data
 import configparser
 from filter import Filter
-import constants
+import cst
+import statistics
 from scapy.layers.inet import UDP, TCP
 
 
@@ -89,7 +90,7 @@ def option_filter(pkt_data, client, server, filter):
         if not filter.ipv4(pkt_data):
             return False
         if filter.UDP:
-            if filter.protocol(pkt_data, constants.UDP):
+            if filter.protocol(pkt_data, cst.UDP):
                 return True
             if not filter.TCP:
                 return False
@@ -97,7 +98,7 @@ def option_filter(pkt_data, client, server, filter):
             # filter manual
             if not filter.address_dst(pkt_data, client, server):
                 return False
-            if not filter.protocol(pkt_data, constants.TCP):
+            if not filter.protocol(pkt_data, cst.TCP):
                 return False
             if filter.SYN:
                 if not filter.syn(pkt_data):
@@ -136,7 +137,7 @@ def launch_analysis(file_name, client, server, filter,
 def read_pcap(client, file_name, filter, server):
     """
     The analysis will first select the relevant packets thanks to the option_filter
-    
+
     :param client:
     :param file_name:
     :param filter:
@@ -170,5 +171,6 @@ if __name__ == '__main__':
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-     execute_config('c1.ini', 'camera_light_on_off.pcap')
-    # execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+     # execute_config('c1.ini', 'camera_light_on_off.pcap')
+     execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+

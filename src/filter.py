@@ -1,6 +1,6 @@
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
-import constants
+import cst
 
 
 class Filter:
@@ -73,7 +73,7 @@ class Filter:
         ether_pkt = Ether(pkt_data)
         ip_pkt = ether_pkt[IP]
         tcp_pkt = ip_pkt[TCP]
-        return tcp_pkt.flags == constants.SYN
+        return tcp_pkt.flags == cst.SYN
 
     # disregard non-IPv4 packets
     def ipv4(self, pkt_data):
@@ -83,7 +83,7 @@ class Filter:
         :rtype: bool
         """
         ether_pkt = Ether(pkt_data)
-        return ether_pkt.type == constants.IPV4
+        return ether_pkt.type == cst.IPV4
 
     def protocol(self, pkt_data, protocol_name):
         """
