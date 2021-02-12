@@ -1,6 +1,5 @@
 import csv
 import numpy as np
-import statistics
 
 
 def to_csv_time_size(tcp_payload):
@@ -28,10 +27,7 @@ def time_interval(second, timestamp):
     real_time = list(range(start, start+len(packet_per_second), 1))
     for x in timestamp:
         packet_per_second[int((x-start) * (1 / second))] += 1
-    print(len(real_time))
-    print(len(packet_per_second))
     packet_per_second_tuple = list(zip(real_time, packet_per_second))
-    print(packet_per_second_tuple)
     return packet_per_second_tuple
 
 
@@ -42,8 +38,8 @@ def cusum(data):
     """
     cus = [0]
     for i in range(1, len(data)):
-        cus.append(cusum_calculation_up(data[i], statistics.mean(data),
-                                        cus[i-1], statistics.stdev(data)))
+        cus.append(cusum_calculation_up(data[i], np.mean(data),
+                                        cus[i-1], np.std(data)))
     return cus
 
 

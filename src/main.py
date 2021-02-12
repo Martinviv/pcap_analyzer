@@ -36,7 +36,7 @@ def execute_config(filename_config, filename_data):
     client = config_parser.get('addresses', 'src')
     server = config_parser.get('addresses', 'dst')
 
-    launch_analysis('data/' + filename_data, client, server,
+    return launch_analysis('data/' + filename_data, client, server,
                     filter, size_payload_tcp, size_payload_udp, throughput, interval_throughput, csv)
 
 
@@ -65,8 +65,7 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
     """
     interval = int(interval_throughput)
     if throughput_graph:
-        timestamp = [x[0] for x in data]
-        timestamp_rate = analysis_data.time_interval(interval, timestamp)
+        timestamp_rate = analysis_data.time_interval(interval, [x[0] for x in data])
         graph.throughput_graph(timestamp_rate, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
     if size_payload_tcp_graph:
         graph.size_payload_graph(data, "hh", "yy", TCP)
@@ -90,6 +89,9 @@ def option_filter(pkt_data, client, server, filter):
         if not filter.ipv4(pkt_data):
             return False
         if filter.UDP:
+            # filter manual
+            if not filter.address_dst(pkt_data, client, server):
+                return False
             if filter.protocol(pkt_data, cst.UDP):
                 return True
             if not filter.TCP:
@@ -132,6 +134,7 @@ def launch_analysis(file_name, client, server, filter,
     print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
     print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
     print(' Last packet in connection: Packet #{} {}'.format(last_pkt_ordinal, last_pkt_timestamp))
+    return tuple_pkt_data_time
 
 
 def read_pcap(client, file_name, filter, server):
@@ -171,6 +174,15 @@ if __name__ == '__main__':
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-     # execute_config('c1.ini', 'camera_light_on_off.pcap')
-     execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+    data = execute_config('c3.ini', 'camera_light_on_off_room.pcap')
+    databis = execute_config('c4.ini', 'camera_light_on_off_room.pcap')
+
+    #databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+
+    timestamp_rate = analysis_data.time_interval(1, [x[0] for x in data])
+    timestamp_rate_bis = analysis_data.time_interval(1, [x[0] for x in databis])
+    print('main')
+    print(timestamp_rate_bis)
+    print(timestamp_rate)
+    graph.multiple_throughput_graph(timestamp_rate, timestamp_rate_bis)
 
