@@ -17,7 +17,7 @@ def throughput_graph(data, leg_x, leg_y):
 
     # cusum
     # create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
-    bimodal_statistics.bimodal(y_val)
+    # bimodal_statistics.bimodal(y_val)
 
 
 def size_payload_graph(data, leg_x, leg_y, protocol):
@@ -90,5 +90,5 @@ def multiple_throughput_graph(data, databis):
 
         x_valBis = [x[0] for x in databis]
         y_valBis = [x[1] for x in databis]
-        create_graph_multiple(x_val, y_val,x_valBis,y_valBis, "Throughput multiple", True)
+        create_graph_multiple(x_val, y_val, x_valBis, y_valBis, "Throughput multiple", True)
 

@@ -174,13 +174,8 @@ if __name__ == '__main__':
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-
     mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
-
-    #analysis_data.get_interval([1,2,3.1,4,5],2,2.6)
-
-
-    #databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+    # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
 
 
 

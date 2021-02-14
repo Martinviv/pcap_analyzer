@@ -1,5 +1,5 @@
 from scapy.layers.l2 import Ether
-from scapy.layers.inet import IP, TCP
+from scapy.layers.inet import IP
 
 
 def get_tcp_payload_size(pkt_data, protocol):

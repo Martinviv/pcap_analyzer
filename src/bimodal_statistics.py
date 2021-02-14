@@ -4,24 +4,19 @@ import matplotlib.pyplot as plt
 
 
 # code adapted from : https://docs.scipy.org/doc/scipy/reference/tutorial/stats.html
-
-
 def my_kde_bandwidth(obj, fac=1./5):
     """We use Scott's Rule, multiplied by a constant factor."""
     return np.power(obj.n, -1./(obj.d+4)) * fac
 
 
-def difference_data(data, size, delay):
+def difference_data(data, size, delay, alpha):
     """
 
     :param data:
     :param size: size of the right (or the left part of the array
     :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
-    :return: print pvalue, mean, std
+    :return: print p-value, mean, std
     """
-    print('diff')
-    print(data)
-
     x2 = np.array(data)
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]
@@ -33,16 +28,19 @@ def difference_data(data, size, delay):
     print(x2_left_mean)
     print(x2_right)
     print(x2_right_mean)
-    #test T H0 same variance True for same variance
-    a = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std,
+    # test T H0 same variance True for same variance
+    statistics, pvalue = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std,
                                    size, x2_right_mean, x2_right_std,
                                    size-delay, False)
-    print(a)
+    if pvalue > alpha/2:
+        print('H0 accepted -> mean_left=mean_right')
+    else:
+        print('H0 rejected')
+    print(statistics)
+    print(pvalue)
 
 
 def bimodal(data):
-    print('bim')
-    print(data)
     pdf = stats.norm.pdf
     x2 = np.array(data)
     x2_left = x2[0:10]
@@ -89,7 +87,7 @@ def bimodal(data):
 
 def getExtremePoints(data, typeOfInflexion=None, maxPoints=None):
     """
-    This method returns the indeces where there is a change in the trend of the input series.
+    This method returns the indices where there is a change in the trend of the input series.
     typeOfExtreme = None returns all extreme points, max only maximum values and min
     only min,
     """
