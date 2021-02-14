@@ -66,7 +66,8 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
     interval = int(interval_throughput)
     if throughput_graph:
         timestamp_rate = analysis_data.time_interval(interval, [x[0] for x in data])
-        graph.throughput_graph(timestamp_rate, 'time' + str(interval) + ' sec', 'Packets/' + str(interval) + ' sec')
+        graph.throughput_graph(timestamp_rate, 'time' + str(interval) +
+                               ' sec', 'Packets/' + str(interval) + ' sec', 'throughput')
     if size_payload_tcp_graph:
         graph.size_payload_graph(data, "hh", "yy", TCP)
     if size_payload_udp_graph:

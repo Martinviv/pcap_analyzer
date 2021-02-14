@@ -4,8 +4,9 @@ import analysis_data
 import bimodal_statistics
 
 
-def throughput_graph(data, leg_x, leg_y):
+def throughput_graph(data, leg_x, leg_y, title):
     """
+    :param title: title of graph
     :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
     :param str leg_x: legend axe x
     :param str leg_y: legend axe y
@@ -13,7 +14,7 @@ def throughput_graph(data, leg_x, leg_y):
     """
     x_val = [x[0] for x in data]
     y_val = [x[1] for x in data]
-    create_graph(x_val, y_val, "Throughput", True)
+    create_graph(x_val, y_val, title, True)
 
     # cusum
     # create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)

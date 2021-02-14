@@ -86,7 +86,7 @@ def smooth(data, coefficient):
     return data_smooth
 
 
-def get_interval(data,size, time, shift):
+def get_interval(data, size, time, shift):
     """
     :param data:
     :param size: size of the (or the right) part of the subarray around the time value
@@ -101,9 +101,23 @@ def get_interval(data,size, time, shift):
 
 # https://stackoverflow.com/questions/2566412/find-nearest-value-in-numpy-array
 def find_nearest(array, value):
+    """
+    :param array: [a,b,c]
+    :param value:
+    :return: the index of an element of the table where whe have the closest element of value
+    """
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
     return idx
+
+
+def check_threshold(data, threshold):
+    """
+    :param data: list of tuple (x,y) where x time and y packet/interval
+    :param threshold: filter value equal or over upper this threshold
+    :return: list filter with the threshold
+    """
+    return [x for x in data if x[1] >= threshold]
 
 
 

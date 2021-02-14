@@ -488,10 +488,11 @@
 
 <dl class="py function">
 <dt id="graph.throughput_graph">
-<code class="sig-prename descclassname">graph.</code><code class="sig-name descname">throughput_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">leg_x</span></em>, <em class="sig-param"><span class="n">leg_y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.throughput_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">graph.</code><code class="sig-name descname">throughput_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">leg_x</span></em>, <em class="sig-param"><span class="n">leg_y</span></em>, <em class="sig-param"><span class="n">title</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.throughput_graph" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – title of graph</p></li>
 <li><p><strong>data</strong> (<em>list</em><em>[</em><em>(</em><em>x</em><em>,</em><em>y</em><em>)</em><em>]</em>) – x timestamps that start the interval and y is number of packets for each interval</p></li>
 <li><p><strong>leg_x</strong> (<em>str</em>) – legend axe x</p></li>
 <li><p><strong>leg_y</strong> (<em>str</em>) – legend axe y</p></li>
@@ -528,6 +529,22 @@
 </div>
 <div class="section" id="module-analysis_data">
 <span id="analysis-data-py"></span><h1>analysis_data.py<a class="headerlink" href="#module-analysis_data" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="analysis_data.check_threshold">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">check_threshold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">threshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.check_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – list of tuple (x,y) where x time and y packet/interval</p></li>
+<li><p><strong>threshold</strong> – filter value equal or over upper this threshold</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list filter with the threshold</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt id="analysis_data.cusum">
 <code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">cusum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.cusum" title="Permalink to this definition">¶</a></dt>
@@ -573,6 +590,22 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>cusum value for the rate interval</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="analysis_data.find_nearest">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">find_nearest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.find_nearest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> – [a,b,c]</p></li>
+<li><p><strong>value</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of an element of the table where whe have the closest element of value</p>
 </dd>
 </dl>
 </dd></dl>
@@ -645,7 +678,7 @@
 <span id="bimodal-statistics-py"></span><h1>bimodal_statistics.py<a class="headerlink" href="#module-bimodal_statistics" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="bimodal_statistics.difference_data">
-<code class="sig-prename descclassname">bimodal_statistics.</code><code class="sig-name descname">difference_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">delay</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bimodal_statistics.difference_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">bimodal_statistics.</code><code class="sig-name descname">difference_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">delay</span></em>, <em class="sig-param"><span class="n">alpha</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bimodal_statistics.difference_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -655,7 +688,7 @@
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>print pvalue, mean, std</p>
+<dd class="field-even"><p>print p-value, mean, std</p>
 </dd>
 </dl>
 </dd></dl>
@@ -663,7 +696,7 @@
 <dl class="py function">
 <dt id="bimodal_statistics.getExtremePoints">
 <code class="sig-prename descclassname">bimodal_statistics.</code><code class="sig-name descname">getExtremePoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">typeOfInflexion</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxPoints</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bimodal_statistics.getExtremePoints" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method returns the indeces where there is a change in the trend of the input series.
+<dd><p>This method returns the indices where there is a change in the trend of the input series.
 typeOfExtreme = None returns all extreme points, max only maximum values and min
 only min,</p>
 </dd></dl>
