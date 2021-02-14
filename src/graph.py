@@ -93,3 +93,30 @@ def multiple_throughput_graph(data, databis):
         y_valBis = [x[1] for x in databis]
         create_graph_multiple(x_val, y_val, x_valBis, y_valBis, "Throughput multiple", True)
 
+
+def create_graph_with_vertical_line(data, title, is_plot, list_vertical):
+    """
+    :param data:
+    :param list_vertical:
+    :param title: Title that will be show
+    :param is_plot: True if plot graph false for scatter (point)
+    :return: create and show the graph
+    """
+
+    x_val = [x[0] for x in data]
+    y_val = [x[1] for x in data]
+
+    plt.figure(figsize=(14, 14))
+    plt.grid()
+    # Major ticks every 20, minor ticks every 5
+    if is_plot:
+        plt.plot(x_val, y_val)
+        for xv in list_vertical:
+            plt.axvline(xv, color='r', linestyle='--')
+    else:
+        plt.scatter(x_val, y_val)
+    # plt.scatter(x_val, y_val, 'or')
+    plt.title(title)
+    plt.show()
+
+

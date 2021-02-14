@@ -17,7 +17,11 @@ def difference_data(data, size, delay, alpha):
     :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
     :return: print p-value, mean, std
     """
+
     x2 = np.array(data)
+    if len(x2[size:2*size])-size < 0:
+        print('not enough data')
+        return
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]
     x2_left_mean = np.mean(x2_left)
@@ -32,12 +36,17 @@ def difference_data(data, size, delay, alpha):
     statistics, pvalue = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std,
                                    size, x2_right_mean, x2_right_std,
                                    size-delay, False)
-    if pvalue > alpha/2:
-        print('H0 accepted -> mean_left=mean_right')
-    else:
-        print('H0 rejected')
+
     print(statistics)
     print(pvalue)
+
+    if pvalue > alpha/2:
+        print('H0 accepted -> mean_left=mean_right')
+        return True
+    else:
+        print('H0 rejected')
+        return False
+
 
 
 def bimodal(data):
