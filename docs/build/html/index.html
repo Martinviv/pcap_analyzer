@@ -443,8 +443,28 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>y_val_bis</strong> – </p></li>
+<li><p><strong>x_val_bis</strong> – </p></li>
 <li><p><strong>x_val</strong> – values x</p></li>
 <li><p><strong>y_val</strong> – values y</p></li>
+<li><p><strong>title</strong> – Title that will be show</p></li>
+<li><p><strong>is_plot</strong> – True if plot graph false for scatter (point)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>create and show the graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="graph.create_graph_with_vertical_line">
+<code class="sig-prename descclassname">graph.</code><code class="sig-name descname">create_graph_with_vertical_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">title</span></em>, <em class="sig-param"><span class="n">is_plot</span></em>, <em class="sig-param"><span class="n">list_vertical</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.create_graph_with_vertical_line" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – </p></li>
+<li><p><strong>list_vertical</strong> – </p></li>
 <li><p><strong>title</strong> – Title that will be show</p></li>
 <li><p><strong>is_plot</strong> – True if plot graph false for scatter (point)</p></li>
 </ul>
@@ -460,7 +480,10 @@
 <code class="sig-prename descclassname">graph.</code><code class="sig-name descname">multiple_throughput_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">databis</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.multiple_throughput_graph" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>list</em><em>[</em><em>(</em><em>x</em><em>,</em><em>y</em><em>)</em><em>]</em>) – x timestamps that start the interval and y is number of packets for each interval</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>databis</strong> – </p></li>
+<li><p><strong>data</strong> (<em>list</em><em>[</em><em>(</em><em>x</em><em>,</em><em>y</em><em>)</em><em>]</em>) – x timestamps that start the interval and y is number of packets for each interval</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>plot graph and show the graph (with the cusum graph)</p>
@@ -688,7 +711,7 @@
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>print p-value, mean, std</p>
+<dd class="field-even"><p>print p-value, mean, std and return True if the hypothesis nul is accepted</p>
 </dd>
 </dl>
 </dd></dl>

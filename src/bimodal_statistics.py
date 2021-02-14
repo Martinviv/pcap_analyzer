@@ -11,11 +11,10 @@ def my_kde_bandwidth(obj, fac=1./5):
 
 def difference_data(data, size, delay, alpha):
     """
-
     :param data:
     :param size: size of the right (or the left part of the array
     :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
-    :return: print p-value, mean, std
+    :return: print p-value, mean, std and return True if the hypothesis nul is accepted
     """
 
     x2 = np.array(data)
@@ -36,7 +35,6 @@ def difference_data(data, size, delay, alpha):
     statistics, pvalue = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std,
                                    size, x2_right_mean, x2_right_std,
                                    size-delay, False)
-
     print(statistics)
     print(pvalue)
 
@@ -46,7 +44,6 @@ def difference_data(data, size, delay, alpha):
     else:
         print('H0 rejected')
         return False
-
 
 
 def bimodal(data):
@@ -93,7 +90,6 @@ def bimodal(data):
 
 
 # from : https://towardsdatascience.com/modality-tests-and-kernel-density-estimations-3f349bb9e595
-
 def getExtremePoints(data, typeOfInflexion=None, maxPoints=None):
     """
     This method returns the indices where there is a change in the trend of the input series.

@@ -28,6 +28,9 @@ def time_interval(second, timestamp):
     for x in timestamp:
         packet_per_second[int((x-start) * (1 / second))] += 1
     packet_per_second_tuple = list(zip(real_time, packet_per_second))
+    #remove the first second because was already started before the lauch
+    # and the last second because she's not finish
+    packet_per_second_tuple = packet_per_second_tuple[1:-1]
     return packet_per_second_tuple
 
 

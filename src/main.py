@@ -171,11 +171,12 @@ def read_pcap(client, file_name, filter, server):
 
 
 if __name__ == '__main__':
-    # client = '192.168.137.1:1900'
-    # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+
+    # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
+
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
 
 
