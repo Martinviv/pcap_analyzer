@@ -1,5 +1,4 @@
 from scipy import stats
-from functools import partial
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -12,26 +11,63 @@ def my_kde_bandwidth(obj, fac=1./5):
     return np.power(obj.n, -1./(obj.d+4)) * fac
 
 
-def bimodal(data):
-    loc1, scale1, size1 = (81.5, 3.7, 175)
-    loc2, scale2, size2 = (63, 6.3, 175)
+def difference_data(data, size, delay):
+    """
+
+    :param data:
+    :param size: size of the right (or the left part of the array
+    :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
+    :return: print pvalue, mean, std
+    """
+    print('diff')
+    print(data)
+
     x2 = np.array(data)
+    x2_left = x2[0:size]
+    x2_right = x2[size+delay:2*size]
+    x2_left_mean = np.mean(x2_left)
+    x2_right_mean = np.mean(x2_right)
+    x2_left_std = np.std(x2_left)
+    x2_right_std = np.std(x2_right)
+    print(x2_left)
+    print(x2_left_mean)
+    print(x2_right)
+    print(x2_right_mean)
+    #test T H0 same variance True for same variance
+    a = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std,
+                                   size, x2_right_mean, x2_right_std,
+                                   size-delay, False)
+    print(a)
+
+
+def bimodal(data):
+    print('bim')
+    print(data)
+    pdf = stats.norm.pdf
+    x2 = np.array(data)
+    x2_left = x2[0:10]
+    x2_right = x2[10:20]
+    x2_left_mean = np.mean(x2_left)
+    x2_right_mean = np.mean(x2_right)
+    x2_left_std = np.std(x2_left)
+    x2_right_std = np.std(x2_right)
+    loc1, scale1, size1 = (x2_left_mean, x2_left_std, 20)
+    loc2, scale2, size2 = (x2_right_mean, x2_right_std, 25)
 
     x_eval = np.linspace(x2.min() - 1, x2.max() + 1, 500)
     kde = stats.gaussian_kde(x2)
-    kde2 = stats.gaussian_kde(x2, bw_method='silverman')
-    kde3 = stats.gaussian_kde(x2, bw_method=partial(my_kde_bandwidth, fac=0.2))
-    kde4 = stats.gaussian_kde(x2, bw_method=partial(my_kde_bandwidth, fac=0.5))
+    #kde2 = stats.gaussian_kde(x2, bw_method='silverman')
+    #kde3 = stats.gaussian_kde(x2, bw_method=partial(my_kde_bandwidth, fac=0.2))
+    #kde4 = stats.gaussian_kde(x2, bw_method=partial(my_kde_bandwidth, fac=0.5))
 
-    pdf = stats.norm.pdf
     bimodal_pdf = pdf(x_eval, loc=loc1, scale=scale1) * float(size1) / x2.size + \
               pdf(x_eval, loc=loc2, scale=scale2) * float(size2) / x2.size
 
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111)
     #pdf probabiliti density function
-    ax.plot(x2, np.zeros(x2.shape), 'b+', ms=12)
-    ax.plot(x_eval, kde(x_eval), 'k-', label="Scott's Rule")
+    #ax.plot(x2, np.zeros(x2.shape), 'b+', ms=12)
+    #ax.plot(x_eval, kde(x_eval), 'k-', label="Scott's Rule")
     #ax.plot(x_eval, kde2(x_eval), 'b-', label="Silverman's Rule")
     #ax.plot(x_eval, kde3(x_eval), 'g-', label="Scott * 0.2")
     #ax.plot(x_eval, kde4(x_eval), 'c-', label="Scott * 0.5")
@@ -47,7 +83,6 @@ def bimodal(data):
     ax.set_xlabel('x')
     ax.set_ylabel('Density')
     plt.show()
-    print(stats.ks_2samp(bimodal_pdf, kde(x_eval)))
 
 
 # from : https://towardsdatascience.com/modality-tests-and-kernel-density-estimations-3f349bb9e595

@@ -84,3 +84,30 @@ def smooth(data, coefficient):
         mean = sum_smooth/coefficient
         data_smooth.append(mean)
     return data_smooth
+
+
+def get_interval(data,size, time, shift):
+    """
+    :param data:
+    :param size: size of the (or the right) part of the subarray around the time value
+    :param time: value that we want the most close in our array to have a right and left part
+    :param shift: shift to the right from the array around the value
+    :return: a subarray of data between arround the time value
+    """
+    a = find_nearest([x[0] for x in data], time)
+    subdata = data[a-size+shift:a+size+1+shift]
+    return subdata
+
+
+# https://stackoverflow.com/questions/2566412/find-nearest-value-in-numpy-array
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
+
+
+
+
+
+

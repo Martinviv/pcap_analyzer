@@ -4,7 +4,7 @@ import analysis_data
 import configparser
 from filter import Filter
 import cst
-import statistics
+import mapping_light_camera
 from scapy.layers.inet import UDP, TCP
 
 
@@ -174,15 +174,13 @@ if __name__ == '__main__':
     # server = '192.168.137.16:51575'
     # execute_config('c1.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
-    data = execute_config('c3.ini', 'camera_light_on_off_room.pcap')
-    databis = execute_config('c4.ini', 'camera_light_on_off_room.pcap')
+
+    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+
+    #analysis_data.get_interval([1,2,3.1,4,5],2,2.6)
+
 
     #databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
 
-    timestamp_rate = analysis_data.time_interval(1, [x[0] for x in data])
-    timestamp_rate_bis = analysis_data.time_interval(1, [x[0] for x in databis])
-    print('main')
-    print(timestamp_rate_bis)
-    print(timestamp_rate)
-    graph.multiple_throughput_graph(timestamp_rate, timestamp_rate_bis)
+
 

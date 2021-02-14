@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import analysis_packet
 import analysis_data
-import statistics
+import bimodal_statistics
 
 
 def throughput_graph(data, leg_x, leg_y):
@@ -16,8 +16,8 @@ def throughput_graph(data, leg_x, leg_y):
     create_graph(x_val, y_val, "Throughput", True)
 
     # cusum
-    create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
-    statistics.bimodal(y_val)
+    # create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
+    bimodal_statistics.bimodal(y_val)
 
 
 def size_payload_graph(data, leg_x, leg_y, protocol):
@@ -77,6 +77,7 @@ def create_graph_multiple(x_val, y_val,x_val_bis, y_val_bis, title, is_plot):
         # plt.scatter(x_val, y_val, 'or')
         plt.title(title)
         plt.show()
+
 
 def multiple_throughput_graph(data, databis):
         """

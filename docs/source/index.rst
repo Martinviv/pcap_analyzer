@@ -35,6 +35,12 @@ analysis_data.py
 .. automodule:: analysis_data
     :members:
 
+
+bimodal_statistics.py
+=========================================
+.. automodule:: bimodal_statistics
+    :members:
+
 Indices and tables
 ==================
 
