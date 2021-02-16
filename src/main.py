@@ -1,5 +1,4 @@
 from scapy.utils import RawPcapReader
-import graph
 import analysis_data
 import configparser
 from filter import Filter
@@ -71,6 +70,7 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
         throughput_graph = Graph(timestamp_rate.packet_per_second_tuple, 'time' + str(interval) +
                                  ' sec', 'Packets/' + str(interval) + ' sec', 'Throughput', True)
         throughput_graph.create_graph()
+        throughput_graph.show_graph()
 
     if size_payload_tcp_graph:
         size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  True)
@@ -116,14 +116,14 @@ def option_filter(pkt_data, client, server, filter):
     return True
 
 
-def launch_analysis(file_name, client, server, filter,
+def launch_analysis(file_name, client, server, filtering,
                     size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput, csv):
     """
     After it will apply the out option to have the results of calculation.
 
     :param size_payload_udp_graph:
     :param size_payload_tcp_graph:
-    :param filter:
+    :param filtering:
     :param interval_throughput:
     :param csv:
     :param throughput_graph:
@@ -134,7 +134,7 @@ def launch_analysis(file_name, client, server, filter,
     """
 
     count, first_pkt_ordinal, first_pkt_timestamp, interesting_packet_count, last_pkt_ordinal, last_pkt_timestamp, tuple_pkt_data_time = read_pcap(
-        client, file_name, filter, server)
+        client, file_name, filtering, server)
 
     option_out_data(tuple_pkt_data_time, size_payload_tcp_graph, size_payload_udp_graph,
                     throughput_graph, interval_throughput, csv)
@@ -145,13 +145,13 @@ def launch_analysis(file_name, client, server, filter,
     return tuple_pkt_data_time
 
 
-def read_pcap(client, file_name, filter, server):
+def read_pcap(client, file_name, filtering, server):
     """
     The analysis will first select the relevant packets thanks to the option_filter
 
     :param client:
     :param file_name:
-    :param filter:
+    :param filtering:
     :param server:
     :return:
     """
@@ -165,7 +165,7 @@ def read_pcap(client, file_name, filter, server):
     for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
         count += 1
 
-        if option_filter(pkt_data, client, server, filter):
+        if option_filter(pkt_data, client, server, filtering):
 
             interesting_packet_count += 1
             if interesting_packet_count == 1:

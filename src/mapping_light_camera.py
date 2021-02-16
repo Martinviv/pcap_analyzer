@@ -16,9 +16,14 @@ def graph_light_camera(conf1, conf2, file):
     is_present = sub_array(timestamp_rate, size, list_threshold, 0, 4)
 
     vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'rr', 'rr', "rate_vertical,", True)
-    vertical_line.create_graph_with_vertical_line(is_present)
+    vertical_line.create_graph()
+    vertical_line.add_vertical_line(is_present)
 
-    # graph.multiple_throughput_graph(timestamp_rate, timestamp_rate_bis)
+    # vertical_line.add_data(timestamp_rate_bis.packet_per_second_tuple)
+
+    vertical_line.show_graph()
+
+
 
 
 def sub_array(timestamp_rate, size, time_list, shift, delay):
@@ -37,7 +42,6 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
         if last < y-delay:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
             print('time')
             print(y)
-            # subarray = analysis_data.get_interval(timestamp_rate, size, y, shift)
             subarray = timestamp_rate.get_interval(size, y, shift)
             H0 = bimodal_statistics.difference_data([x[1] for x in subarray], size, delay, 0.05)
             # graph.throughput_graph(subarray, 'hhh', 'gg', y)
