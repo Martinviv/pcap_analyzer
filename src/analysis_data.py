@@ -14,26 +14,6 @@ def to_csv_time_size(tcp_payload):
             csv_out.writerow(row)
 
 
-def time_interval(second, timestamp):
-    """
-    :param int second: size in second of the interval where we count the number of packets
-    :param collection.iterable timestamp: collection of all timestamp packets
-    :return: list of tuple list(x,y) where x is time and y number packets per interval
-    """
-
-    start = timestamp[0]
-    end = timestamp[len(timestamp)-1]
-    packet_per_second = [0]*int(((end-start) * (1 / second)) + 1)
-    real_time = list(range(start, start+len(packet_per_second), 1))
-    for x in timestamp:
-        packet_per_second[int((x-start) * (1 / second))] += 1
-    packet_per_second_tuple = list(zip(real_time, packet_per_second))
-    #remove the first second because was already started before the lauch
-    # and the last second because she's not finish
-    packet_per_second_tuple = packet_per_second_tuple[1:-1]
-    return packet_per_second_tuple
-
-
 def cusum(data):
     """
     :param data:
@@ -87,44 +67,3 @@ def smooth(data, coefficient):
         mean = sum_smooth/coefficient
         data_smooth.append(mean)
     return data_smooth
-
-
-def get_interval(data, size, time, shift):
-    """
-    :param data:
-    :param size: size of the (or the right) part of the subarray around the time value
-    :param time: value that we want the most close in our array to have a right and left part
-    :param shift: shift to the right from the array around the value
-    :return: a subarray of data between arround the time value
-    """
-    a = find_nearest([x[0] for x in data], time)
-    subdata = data[a-size+shift:a+size+1+shift]
-    return subdata
-
-
-# https://stackoverflow.com/questions/2566412/find-nearest-value-in-numpy-array
-def find_nearest(array, value):
-    """
-    :param array: [a,b,c]
-    :param value:
-    :return: the index of an element of the table where whe have the closest element of value
-    """
-    array = np.asarray(array)
-    idx = (np.abs(array - value)).argmin()
-    return idx
-
-
-def check_threshold(data, threshold):
-    """
-    :param data: list of tuple (x,y) where x time and y packet/interval
-    :param threshold: filter value equal or over upper this threshold
-    :return: list filter with the threshold
-    """
-    return [x for x in data if x[1] >= threshold]
-
-
-
-
-
-
-

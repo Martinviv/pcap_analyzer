@@ -4,116 +4,75 @@ import analysis_data
 import bimodal_statistics
 
 
-def throughput_graph(data, leg_x, leg_y, title):
-    """
-    :param title: title of graph
-    :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
-    :param str leg_x: legend axe x
-    :param str leg_y: legend axe y
-    :return: plot graph and show the graph (with the cusum graph)
-    """
-    x_val = [x[0] for x in data]
-    y_val = [x[1] for x in data]
-    create_graph(x_val, y_val, title, True)
+class Graph:
 
-    # cusum
-    # create_graph(x_val, analysis_data.cusum(y_val), "Cusum_Throughput", True)
-    # bimodal_statistics.bimodal(y_val)
+    def __init__(self, data, leg_x, leg_y, title, is_plot):
+        self.data = data
+        self.leg_x = leg_x
+        self.leg_y = leg_y
+        self.is_plot = is_plot
+        self.x_val = [x[0] for x in data]
+        self.y_val = [x[1] for x in data]
+        plt.figure(figsize=(14, 14))
+        plt.grid()
+        plt.title(title)
+        self.plt = plt
 
+    def size_payload_graph(self, protocol):
+        """
+        :param protocol: TCP or UDP
+        :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
+        :return: set of coordinates where x time and y tcp payload size (no return) and show graph
+        """
 
-def size_payload_graph(data, leg_x, leg_y, protocol):
-    """
-    :param protocol: TCP or UDP
-    :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
-    :param str leg_x: legend axe x
-    :param str leg_y: legend axe y
-    :return: set of coordinates where x time and y tcp payload size (no return) and show graph
-    """
-    x_val = [x[0] for x in data]
-    y_val = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in data]
+        # TODO : update with new signature
+        y_val_size = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in self.data]
+        self.create_graph()
 
-    create_graph(x_val, y_val, "Payload size for each packets", False)
+        # TODO : update with new signature
+        # self.create_graph(analysis_data.smooth(self.x_val, 15), analysis_data.smooth(y_val_size, 15))
 
-    create_graph(analysis_data.smooth(x_val, 15),
-                 analysis_data.smooth(y_val, 15), "Smooth value", False)
+    def create_graph(self):
+        """
+        :return: create and show the graph
+        """
+        if self.is_plot:
+            self.plt.plot(self.x_val, self.y_val)
+        else:
+            self.plt.scatter(self.x_val, self.y_val)
+        self.plt.show()
 
+    def create_graph_multiple(self, x_val_bis, y_val_bis):
+        """
+        :param y_val_bis:
+        :param x_val_bis:
+        :return: create and show the graph
+        """
+        if self.is_plot:
+            plt.plot(self.x_val, self.y_val)
+            plt.plot(x_val_bis, y_val_bis)
+        else:
+            plt.scatter(self.x_val, self.y_val)
+            plt.scatter(x_val_bis, y_val_bis)
+        plt.show()
 
-def create_graph(x_val, y_val, title, is_plot):
-    """
-    :param x_val: values x
-    :param y_val: values y
-    :param title: Title that will be show
-    :param is_plot: True if plot graph false for scatter (point)
-    :return: create and show the graph
-    """
-    plt.figure(figsize=(14, 14))
-    plt.grid()
-    if is_plot:
-        plt.plot(x_val, y_val)
-    else:
-        plt.scatter(x_val, y_val)
-    plt.title(title)
-    plt.show()
+    def multiple_throughput_graph(self, databis):
+        """
+        :param databis:
+        :return: plot graph and show the graph (with the cusum graph)
+        """
+        x_valBis = [x[0] for x in databis]
+        y_valBis = [x[1] for x in databis]
+        self.create_graph_multiple(x_valBis, y_valBis)
 
-
-def create_graph_multiple(x_val, y_val,x_val_bis, y_val_bis, title, is_plot):
-    """
-    :param y_val_bis:
-    :param x_val_bis:
-    :param x_val: values x
-    :param y_val: values y
-    :param title: Title that will be show
-    :param is_plot: True if plot graph false for scatter (point)
-    :return: create and show the graph
-    """
-    plt.figure(figsize=(14, 14))
-    plt.grid()
-    if is_plot:
-        plt.plot(x_val, y_val)
-        plt.plot(x_val_bis, y_val_bis)
-    else:
-        plt.scatter(x_val, y_val)
-        plt.scatter(x_val_bis, y_val_bis)
-    plt.title(title)
-    plt.show()
-
-
-def multiple_throughput_graph(data, databis):
-    """
-    :param databis:
-    :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
-
-    :return: plot graph and show the graph (with the cusum graph)
-    """
-    x_val = [x[0] for x in data]
-    y_val = [x[1] for x in data]
-
-    x_valBis = [x[0] for x in databis]
-    y_valBis = [x[1] for x in databis]
-    create_graph_multiple(x_val, y_val, x_valBis, y_valBis, "Throughput multiple", True)
-
-
-def create_graph_with_vertical_line(data, title, is_plot, list_vertical):
-    """
-    :param data:
-    :param list_vertical:
-    :param title: Title that will be show
-    :param is_plot: True if plot graph false for scatter (point)
-    :return: create and show the graph
-    """
-
-    x_val = [x[0] for x in data]
-    y_val = [x[1] for x in data]
-
-    plt.figure(figsize=(14, 14))
-    plt.grid()
-    if is_plot:
-        plt.plot(x_val, y_val)
-        for xv in list_vertical:
-            plt.axvline(xv, color='r', linestyle='--')
-    else:
-        plt.scatter(x_val, y_val)
-    plt.title(title)
-    plt.show()
-
-
+    def create_graph_with_vertical_line(self, list_vertical):
+        """
+        :param list_vertical:
+        :return: create and show the graph
+        """
+        if self.is_plot:
+            for xv in list_vertical:
+                plt.axvline(xv, color='r', linestyle='--')
+        else:
+            plt.scatter(self.x_val, self.y_val)
+        plt.show()
