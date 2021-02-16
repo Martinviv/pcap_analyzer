@@ -73,12 +73,14 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
         throughput_graph.show_graph()
 
     if size_payload_tcp_graph:
-        size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  True)
+        size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  False)
         size_tcp_graph.size_payload_graph(TCP)
 
+
     if size_payload_udp_graph:
-        size_udp_graph = Graph(data, 'hhh', 'yy', 'udp_payload',  True)
+        size_udp_graph = Graph(data, 'hhh', 'yy', 'udp_payload',  False)
         size_udp_graph.size_payload_graph(UDP)
+
 
     if csv:
         analysis_data.to_csv_time_size(data)
@@ -98,16 +100,16 @@ def option_filter(pkt_data, client, server, filter):
             return False
         if filter.UDP:
             # filter manual
-            if not filter.address_dst(pkt_data, client, server):
-                return False
+            #if not filter.address_dst(pkt_data, client, server):
+            #    return False
             if filter.protocol(pkt_data, cst.UDP):
                 return True
             if not filter.TCP:
                 return False
         if filter.TCP:
             # filter manual
-            if not filter.address_dst(pkt_data, client, server):
-                return False
+        #    if not filter.address_dst(pkt_data, client, server):
+         #       return False
             if not filter.protocol(pkt_data, cst.TCP):
                 return False
             if filter.SYN:
@@ -178,10 +180,10 @@ def read_pcap(client, file_name, filtering, server):
 
 
 if __name__ == '__main__':
-    # execute_config('c1.ini', 'camera_light_on_off.pcap')
+    execute_config('basic.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
 
-    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+    #mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
 
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')

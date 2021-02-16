@@ -1,5 +1,5 @@
 import main
-import bimodal_statistics
+import test_statistics
 from throughput import Throughput
 from graph import Graph
 
@@ -43,7 +43,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
             print('time')
             print(y)
             subarray = timestamp_rate.get_interval(size, y, shift)
-            H0 = bimodal_statistics.difference_data([x[1] for x in subarray], size, delay, 0.05)
+            H0 = test_statistics.difference_data([x[1] for x in subarray], size, delay, 0.05)
             # graph.throughput_graph(subarray, 'hhh', 'gg', y)
             last = y
             if not H0:

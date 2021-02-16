@@ -23,6 +23,7 @@ filter.py
 graph.py
 =========================================
 .. automodule:: graph
+.. autoclass:: Graph
     :members:
 
 analysis_packet.py
@@ -36,9 +37,15 @@ analysis_data.py
     :members:
 
 
-bimodal_statistics.py
+test_statistics.py
 =========================================
-.. automodule:: bimodal_statistics
+.. automodule:: test_statistics
+    :members:
+
+throughput.py
+=========================================
+.. automodule:: throughput
+.. autoclass:: Throughput
     :members:
 
 Indices and tables

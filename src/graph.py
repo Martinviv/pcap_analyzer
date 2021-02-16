@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import analysis_packet
 import analysis_data
-import bimodal_statistics
+import test_statistics
 
 
 class Graph:
@@ -26,11 +26,14 @@ class Graph:
         :return: set of coordinates where x time and y tcp payload size (no return) and show graph
         """
         # TODO : update with new signature
-        y_val_size = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in self.data]
+        self.y_val = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in self.data]
         self.create_graph()
+        self.show_graph()
 
         # TODO : update with new signature
-        # self.create_graph(analysis_data.smooth(self.x_val, 15), analysis_data.smooth(y_val_size, 15))
+        self.plt.scatter(analysis_data.smooth(self.x_val, 15), analysis_data.smooth(self.y_val, 15))
+        self.show_graph()
+
 
     def create_graph(self):
         """
