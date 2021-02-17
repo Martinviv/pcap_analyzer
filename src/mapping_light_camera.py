@@ -3,6 +3,7 @@ import test_statistics
 from throughput import Throughput
 from graph import Graph
 from house import House
+from distribution import Distribution
 
 def graph_light_camera(conf1, conf2, file):
     packet, packet_light = main.execute_multiple_config(conf1, conf2, file)
@@ -38,6 +39,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
     time = [x[0] for x in time_list]
     last = 0
     list_is_present = []
+    list_is_in_same_room = []
 
     my_house = House()
 
@@ -46,25 +48,32 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
             print('time')
             print(y)
             subarray = timestamp_rate.get_interval(size, y, shift)
-            statistics, pvalue, x2_left_mean, x2_left_std, size, x2_right_mean, x2_right_std, size_right = \
-                test_statistics.difference_data([x[1] for x in subarray], size, delay)
+            statistics, pvalue, distribution_1, distribution_2 = test_statistics.difference_data([x[1] for x in subarray]
+                                                                                                 , size, delay)
 
             if pvalue is None:
                 break
-
-            alpha = 0.05
             last = y
-            if pvalue > alpha / 2:
-                print('H0 accepted -> mean_left=mean_right')
-            else:
-                print('H0 rejected')
-                list_is_present.append(y)
+            h0 = hypothesis_check_update_threshold(list_is_present, pvalue, y)
 
-
-
-
-
-    print(list_is_present)
+            if not h0:
+                is_room = my_house.pattern_compare(distribution_1, distribution_2)
+                if is_room:
+                    list_is_in_same_room.append(y)
 
             # graph.throughput_graph(subarray, 'hhh', 'gg', y)
-    return list_is_present
+    print('threshold')
+    print(my_house.in_same_room)
+    return list_is_in_same_room
+
+
+def hypothesis_check_update_threshold(list_is_present, pvalue, y):
+    alpha = 0.05
+    if pvalue > alpha / 2:
+        #print('H0 accepted -> mean_left=mean_right')
+        return True
+    else:
+        #print('H0 rejected')
+        list_is_present.append(y)
+        return False
+

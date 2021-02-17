@@ -1,13 +1,12 @@
 from scipy import stats
-from distribution import Distribution
 
 
 class House:
 
     def __init__(self):
-        self.threshold_camera_up = Distribution(None, None, None)
-        self.threshold_camera_down = Distribution(None, None, None)
-        self.in_same_room = None
+        self.threshold_camera_up = None
+        self.threshold_camera_down = None
+        self.in_same_room = 0
 
     def compare_threshold_up(self, distribution):
         statistics, pvalue = stats.ttest_ind_from_stats(self.threshold_camera_up.mean, self.threshold_camera_up.std,
@@ -21,3 +20,64 @@ class House:
                                                         distribution.std, distribution.number_data, False)
         return statistics, pvalue
 
+    def check_with_last_threshold(self, distribution_1, distribution_2):
+
+        if self.threshold_camera_down is None:
+            if abs(distribution_1.mean < distribution_2.mean):
+                self.threshold_camera_down = distribution_1
+                self.threshold_camera_up = distribution_2
+            else:
+                self.threshold_camera_down = distribution_2
+                self.threshold_camera_up = distribution_1
+                print('register distribution')
+
+        elif abs(distribution_1.mean - self.threshold_camera_down.mean) < abs(distribution_2.mean -
+                                                                              self.threshold_camera_down.mean) :
+            stat_1, pval_1 = self.compare_threshold_down(distribution_1)
+            stat_2, pval_2 = self.compare_threshold_up(distribution_2)
+            print(distribution_2.mean)
+            print(self.threshold_camera_up.mean)
+            print(distribution_1.mean)
+            print(self.threshold_camera_down.mean)
+
+            return self.test_h0_bivalue(pval_1, pval_2)
+
+        else:
+            stat_1, pval_1 = self.compare_threshold_up(distribution_1)
+            stat_2, pval_2 = self.compare_threshold_down(distribution_2)
+            print(distribution_1.mean)
+            print(self.threshold_camera_up.mean)
+            print(distribution_2.mean)
+            print(self.threshold_camera_down.mean)
+            return self.test_h0_bivalue(pval_1, pval_2)
+
+    def test_h0_bivalue(self, pval_1, pval_2):
+        alpha = 0.05
+        if pval_1 and pval_2 > alpha / 2:
+            print(pval_1)
+            print(pval_2)
+            print('H0 accepted ->pattern recognized')
+            return True
+        else:
+            print(pval_1)
+            print(pval_2)
+            print('new pattern')
+            return False
+
+    def pattern_compare(self, distribution_1, distribution_2):
+        is_recognize = self.check_with_last_threshold(distribution_1, distribution_2)
+
+        if is_recognize:
+            if distribution_1.mean < distribution_2.mean:
+                self.threshold_camera_down = distribution_1
+                self.threshold_camera_up = distribution_2
+            else:
+                self.threshold_camera_down = distribution_2
+                self.threshold_camera_up = distribution_1
+            self.in_same_room = self.in_same_room + 1
+            return True
+        else:
+            if self.in_same_room > 0:
+                self.in_same_room = self.in_same_room - 1
+            print('not in same room')
+            return False

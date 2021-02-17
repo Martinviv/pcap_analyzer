@@ -1,7 +1,7 @@
 from scipy import stats
 import numpy as np
 import matplotlib.pyplot as plt
-
+from distribution import Distribution
 
 # code adapted from : https://docs.scipy.org/doc/scipy/reference/tutorial/stats.html
 def my_kde_bandwidth(obj, fac=1./5):
@@ -19,7 +19,7 @@ def difference_data(data, size, delay):
     """
     x2 = np.array(data)
     if len(x2[size:2*size])-size < 0:
-        return None, None, None, None, None, None, None, None
+        return None, None, None, None
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]
     x2_left_mean = np.mean(x2_left)
@@ -34,10 +34,14 @@ def difference_data(data, size, delay):
     # test T H0 same variance True for same variance
     statistics, pvalue = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std, size, x2_right_mean,
                                                     x2_right_std, size-delay, False)
-    print(statistics)
-    print(pvalue)
-    size_right = size-delay
-    return statistics, pvalue, x2_left_mean, x2_left_std, size, x2_right_mean, x2_right_std, size_right
+    size_right = size - delay
+    distribution_1 = Distribution(x2_left_mean, x2_left_std, size)
+    distribution_2 = Distribution(x2_right_mean, x2_right_std, size_right)
+
+    #print(statistics)
+    #print(pvalue)
+
+    return statistics, pvalue, distribution_1, distribution_2
 
 
 def bimodal(data):
