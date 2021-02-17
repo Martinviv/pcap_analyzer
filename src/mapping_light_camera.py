@@ -2,7 +2,7 @@ import main
 import test_statistics
 from throughput import Throughput
 from graph import Graph
-
+from house import House
 
 def graph_light_camera(conf1, conf2, file):
     packet, packet_light = main.execute_multiple_config(conf1, conf2, file)
@@ -38,14 +38,33 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
     time = [x[0] for x in time_list]
     last = 0
     list_is_present = []
+
+    my_house = House()
+
     for y in time:
         if last < y-delay:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
             print('time')
             print(y)
             subarray = timestamp_rate.get_interval(size, y, shift)
-            H0 = test_statistics.difference_data([x[1] for x in subarray], size, delay, 0.05)
-            # graph.throughput_graph(subarray, 'hhh', 'gg', y)
+            statistics, pvalue, x2_left_mean, x2_left_std, size, x2_right_mean, x2_right_std, size_right = \
+                test_statistics.difference_data([x[1] for x in subarray], size, delay)
+
+            if pvalue is None:
+                break
+
+            alpha = 0.05
             last = y
-            if not H0:
+            if pvalue > alpha / 2:
+                print('H0 accepted -> mean_left=mean_right')
+            else:
+                print('H0 rejected')
                 list_is_present.append(y)
+
+
+
+
+
+    print(list_is_present)
+
+            # graph.throughput_graph(subarray, 'hhh', 'gg', y)
     return list_is_present

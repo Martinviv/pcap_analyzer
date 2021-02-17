@@ -6,6 +6,7 @@ from packets import Packets
 from payload_size import PayloadSize
 import mapping_light_camera
 from scapy.layers.inet import UDP, TCP
+import time
 
 
 def execute_single_config(filename_config, filename_data):
@@ -117,10 +118,14 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
 
 
 if __name__ == '__main__':
+    startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
-    # execute_config('c1.ini', 'camera_movement.pcap')
+    #  execute_config('c1.ini', 'camera_movement.pcap')
 
     mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
 
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
+
+    endTime = time.perf_counter()
+    print("time : " + str(endTime - startTime))

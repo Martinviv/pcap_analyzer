@@ -9,7 +9,7 @@ def my_kde_bandwidth(obj, fac=1./5):
     return np.power(obj.n, -1./(obj.d+4)) * fac
 
 
-def difference_data(data, size, delay, alpha):
+def difference_data(data, size, delay):
     """
     :param alpha:
     :param data:
@@ -17,33 +17,27 @@ def difference_data(data, size, delay, alpha):
     :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
     :return: print p-value, mean, std and return True if the hypothesis nul is accepted
     """
-
     x2 = np.array(data)
     if len(x2[size:2*size])-size < 0:
-        print('not enough data')
-        return
+        return None, None, None, None, None, None, None, None
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]
     x2_left_mean = np.mean(x2_left)
     x2_right_mean = np.mean(x2_right)
     x2_left_std = np.std(x2_left)
     x2_right_std = np.std(x2_right)
-    print(x2_left)
-    print(x2_left_mean)
-    print(x2_right)
-    print(x2_right_mean)
+    # print(x2_left)
+    # print(x2_left_mean)
+    # print(x2_right)
+    # print(x2_right_mean)
+
     # test T H0 same variance True for same variance
     statistics, pvalue = stats.ttest_ind_from_stats(x2_left_mean, x2_left_std, size, x2_right_mean,
                                                     x2_right_std, size-delay, False)
     print(statistics)
     print(pvalue)
-
-    if pvalue > alpha/2:
-        print('H0 accepted -> mean_left=mean_right')
-        return True
-    else:
-        print('H0 rejected')
-        return False
+    size_right = size-delay
+    return statistics, pvalue, x2_left_mean, x2_left_std, size, x2_right_mean, x2_right_std, size_right
 
 
 def bimodal(data):
