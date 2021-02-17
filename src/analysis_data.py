@@ -1,18 +1,4 @@
-import csv
 import numpy as np
-
-
-def to_csv_time_size(tcp_payload):
-    """
-    :param tcp_payload:
-    :return: create csv file to the out directory with time packet and tcp payload packet
-    """
-    with open('out/data_payload.csv', 'w') as out:
-        csv_out = csv.writer(out)
-        csv_out.writerow(['time', 'size'])
-        for row in tcp_payload:
-            csv_out.writerow(row)
-
 
 def cusum(data):
     """
@@ -58,7 +44,6 @@ def smooth(data, coefficient):
     :param coefficient: if 3 then x 0 1 2
     :return: values smoothed
     """
-
     data_smooth = []
     for pkt in range(len(data)-1-coefficient):
         sum_smooth = 0

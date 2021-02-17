@@ -4,6 +4,7 @@ from filter import Filter
 from throughput import Throughput
 from graph import Graph
 from packets import Packets
+from payload_size import PayloadSize
 import mapping_light_camera
 from scapy.layers.inet import UDP, TCP
 
@@ -100,19 +101,28 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
         throughput_graph.show_graph()
 
     if size_payload_tcp_graph:
-        size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  False, 'device 1')
-        size_tcp_graph.size_payload_graph(TCP)
+        tcp_list = PayloadSize(data, TCP)
+        size_tcp_graph = Graph(tcp_list.payload_tuple, 'hhh', 'yy', 'tcp_payload',  False, 'device 1')
+        size_tcp_graph.create_graph()
+        size_tcp_graph.show_graph()
 
     if size_payload_udp_graph:
-        size_udp_graph = Graph(data, 'hhh', 'yy', 'udp_payload',  False, 'device 1')
-        size_udp_graph.size_payload_graph(UDP)
+        udp_list = PayloadSize(data, UDP)
+        size_udp_graph = Graph(udp_list.payload_tuple, 'hhh', 'yy', 'udp_payload',  False, 'device 1')
+        size_udp_graph.create_graph()
+        size_udp_graph.show_graph()
+
+        # smooth
+        smoothUDP = Graph(udp_list.smooth_result(15), 'hhh', 'yy', 'udp_payload',  False, 'device 1')
+        smoothUDP.create_graph()
+        smoothUDP.show_graph()
 
 
 if __name__ == '__main__':
-    # execute_config('basic.ini', 'camera_light_on_off.pcap')
+    # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
 
-    # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
-    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
+    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+    # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
 
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')

@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-import analysis_packet
-import analysis_data
 
 
 class Graph:
@@ -19,21 +17,6 @@ class Graph:
         self.ax = self.fig.add_subplot(111)
         self.ax.grid()
         self.plt.title(title)
-
-    def size_payload_graph(self, protocol):
-        """
-        :param protocol: TCP or UDP
-        :param list[(x,y)] data:  x timestamps that start the interval and y is number of packets for each interval
-        :return: set of coordinates where x time and y tcp payload size (no return) and show graph
-        """
-        # TODO : update with new signature
-        self.y_val = [analysis_packet.get_tcp_payload_size(x[1], protocol) for x in self.data]
-        self.create_graph()
-        self.show_graph()
-
-        # TODO : update with new signature
-        self.ax.scatter(analysis_data.smooth(self.x_val, 15), analysis_data.smooth(self.y_val, 15))
-        self.show_graph()
 
     def create_graph(self):
         """
