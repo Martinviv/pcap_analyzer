@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def cusum(data):
     """
     :param data:

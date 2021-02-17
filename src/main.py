@@ -1,4 +1,3 @@
-import analysis_data
 import configparser
 from filter import Filter
 from throughput import Throughput
@@ -30,7 +29,7 @@ def execute_single_config(filename_config, filename_data):
     return packet_filter
 
 
-def execute_multiple_config(filename_config_1,filename_config_2, filename_data):
+def execute_multiple_config(filename_config_1, filename_config_2, filename_data):
     filtering_1, interval_throughput_1, size_payload_tcp_1, size_payload_udp_1, throughput_1 = config_analysis(
         filename_config_1)
     filtering_2, interval_throughput_2, size_payload_tcp_2, size_payload_udp_2, throughput_2 = config_analysis(
@@ -89,7 +88,6 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
     :param data:
     :param throughput_graph:
     :param interval_throughput:
-    :param csv:
     :return:
     """
     interval = int(interval_throughput)

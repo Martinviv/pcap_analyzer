@@ -35,7 +35,6 @@ class Throughput:
 
     def get_interval(self, size, time, shift):
         """
-        :param data:
         :param size: size of the (or the right) part of the subarray around the time value
         :param time: value that we want the most close in our array to have a right and left part
         :param shift: shift to the right from the array around the value

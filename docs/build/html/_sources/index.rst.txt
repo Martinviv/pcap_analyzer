@@ -26,11 +26,6 @@ graph.py
 .. autoclass:: Graph
     :members:
 
-analysis_packet.py
-=========================================
-.. automodule:: analysis_packet
-    :members:
-
 analysis_data.py
 =========================================
 .. automodule:: analysis_data

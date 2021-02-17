@@ -20,7 +20,7 @@ def graph_light_camera(conf1, conf2, file):
     vertical_line.create_graph()
     vertical_line.add_vertical_line(is_present, 'light_same_room')
 
-    #for showing 2 same time
+    # for showing 2 same time
     vertical_line.add_data(timestamp_rate_bis.packet_per_second_tuple, 'light')
 
     vertical_line.show_graph()

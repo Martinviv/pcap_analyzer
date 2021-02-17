@@ -14,16 +14,16 @@ def option_filter(pkt_data, filtering):
             return False
         if filtering.UDP:
             # filter manual
-            #if not filtering.address_dst(pkt_data):
-             #   return False
+            if not filtering.address_dst(pkt_data):
+                return False
             if filtering.protocol(pkt_data, cst.UDP):
                 return True
             if not filtering.TCP:
                 return False
         if filtering.TCP:
             # filter manual
-            #if not filtering.address_dst(pkt_data):
-             #   return False
+            if not filtering.address_dst(pkt_data):
+                return False
             if not filtering.protocol(pkt_data, cst.TCP):
                 return False
             if filtering.SYN:

@@ -2,6 +2,7 @@ from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP
 import analysis_data
 
+
 def get_tcp_payload_size(pkt_data, protocol):
     """
     :param protocol: choose protocol (UDP or TCP)
