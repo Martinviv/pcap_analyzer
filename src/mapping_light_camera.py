@@ -5,8 +5,8 @@ from graph import Graph
 
 
 def graph_light_camera(conf1, conf2, file):
-    packet = main.execute_config(conf1, file)
-    packet_light = main.execute_config(conf2, file)
+    packet, packet_light = main.execute_multiple_config(conf1, conf2, file)
+
     timestamp_rate = Throughput([x[0] for x in packet], 1)
     timestamp_rate_bis = Throughput([x[0] for x in packet_light], 1)
     list_threshold = timestamp_rate_bis.check_threshold(1)

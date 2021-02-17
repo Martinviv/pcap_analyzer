@@ -8,35 +8,33 @@ class Filter:
     Create a filter with boolean instance
     """
 
-    def __init__(self, IPv4, TCP, UDP, SYN):
+    def __init__(self, IPv4, TCP, UDP, SYN, client=None, server=None):
         self.IPv4 = IPv4
         self.TCP = TCP
         self.UDP = UDP
         self.SYN = SYN
+        self.client = client
+        self.server = server
 
-    def address_src(self, pkt_data, server_ip, client_ip):
+    def address_src(self, pkt_data):
         """
         :param pkt_data:
-        :param server_ip:
-        :param client_ip:
         :return:
         :rtype: bool
         """
         ether_pkt = Ether(pkt_data)
         ip_pkt = ether_pkt[IP]
-        return (ip_pkt.src == server_ip) or (ip_pkt.src == client_ip)
+        return (ip_pkt.src == self.server) or (ip_pkt.src == self.client)
 
-    def address_dst(self, pkt_data, server_ip, client_ip):
+    def address_dst(self, pkt_data):
         """
         :param pkt_data:
-        :param server_ip:
-        :param client_ip:
         :return:
         :rtype: bool
         """
         ether_pkt = Ether(pkt_data)
         ip_pkt = ether_pkt[IP]
-        return (ip_pkt.dst == server_ip) and (ip_pkt.src == client_ip)
+        return (ip_pkt.dst == self.server) and (ip_pkt.src == self.client)
 
     def port_src(self, pkt_data, client_port, server_port):
         """

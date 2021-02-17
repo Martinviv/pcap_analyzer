@@ -2,7 +2,7 @@ from scapy.utils import RawPcapReader
 import cst
 
 
-def option_filter(pkt_data, client, server, filtering):
+def option_filter(pkt_data, filtering):
     """
     :param filtering:
     :param pkt_data:
@@ -16,7 +16,7 @@ def option_filter(pkt_data, client, server, filtering):
             return False
         if filtering.UDP:
             # filter manual
-            if not filtering.address_dst(pkt_data, client, server):
+            if not filtering.address_dst(pkt_data):
                 return False
             if filtering.protocol(pkt_data, cst.UDP):
                 return True
@@ -24,7 +24,7 @@ def option_filter(pkt_data, client, server, filtering):
                 return False
         if filtering.TCP:
             # filter manual
-            if not filtering.address_dst(pkt_data, client, server):
+            if not filtering.address_dst(pkt_data):
                 return False
             if not filtering.protocol(pkt_data, cst.TCP):
                 return False
@@ -55,5 +55,5 @@ class Packets:
         self.data = tuple_pkt_data_time
         self.size = count
 
-    def filter(self, client, server, filtering):
-        return [x for x in self.data if option_filter(x[1], client, server, filtering)]
+    def filter(self, filtering):
+        return [x for x in self.data if option_filter(x[1], filtering)]
