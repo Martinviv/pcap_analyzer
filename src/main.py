@@ -1,10 +1,9 @@
-from scapy.utils import RawPcapReader
 import analysis_data
 import configparser
 from filter import Filter
 from throughput import Throughput
 from graph import Graph
-import cst
+from packets import Packets
 import mapping_light_camera
 from scapy.layers.inet import UDP, TCP
 
@@ -68,54 +67,20 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
     if throughput_graph:
         timestamp_rate = Throughput([x[0] for x in data], interval)
         throughput_graph = Graph(timestamp_rate.packet_per_second_tuple, 'time' + str(interval) +
-                                 ' sec', 'Packets/' + str(interval) + ' sec', 'Throughput', True)
+                                 ' sec', 'Packets/' + str(interval) + ' sec', 'Throughput', True, 'device 1')
         throughput_graph.create_graph()
         throughput_graph.show_graph()
 
     if size_payload_tcp_graph:
-        size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  False)
+        size_tcp_graph = Graph(data, 'hhh', 'yy', 'tcp_payload',  False, 'device 1')
         size_tcp_graph.size_payload_graph(TCP)
 
-
     if size_payload_udp_graph:
-        size_udp_graph = Graph(data, 'hhh', 'yy', 'udp_payload',  False)
+        size_udp_graph = Graph(data, 'hhh', 'yy', 'udp_payload',  False, 'device 1')
         size_udp_graph.size_payload_graph(UDP)
-
 
     if csv:
         analysis_data.to_csv_time_size(data)
-
-
-def option_filter(pkt_data, client, server, filter):
-    """
-    :param filter:
-    :param pkt_data:
-    :param client:
-    :param server:
-    :return:
-    """
-
-    if filter.IPv4:
-        if not filter.ipv4(pkt_data):
-            return False
-        if filter.UDP:
-            # filter manual
-            #if not filter.address_dst(pkt_data, client, server):
-            #    return False
-            if filter.protocol(pkt_data, cst.UDP):
-                return True
-            if not filter.TCP:
-                return False
-        if filter.TCP:
-            # filter manual
-        #    if not filter.address_dst(pkt_data, client, server):
-         #       return False
-            if not filter.protocol(pkt_data, cst.TCP):
-                return False
-            if filter.SYN:
-                if not filter.syn(pkt_data):
-                    return False
-    return True
 
 
 def launch_analysis(file_name, client, server, filtering,
@@ -135,56 +100,22 @@ def launch_analysis(file_name, client, server, filtering,
     :return: list of timestamp and tuple (time,tcp payload size) from all filtered packets
     """
 
-    count, first_pkt_ordinal, first_pkt_timestamp, interesting_packet_count, last_pkt_ordinal, last_pkt_timestamp, tuple_pkt_data_time = read_pcap(
-        client, file_name, filtering, server)
+    packets = Packets(file_name)
+    packets.read_pcap()
+    packet_filter = packets.filter(client, server, filtering)
 
-    option_out_data(tuple_pkt_data_time, size_payload_tcp_graph, size_payload_udp_graph,
+    option_out_data(packet_filter, size_payload_tcp_graph, size_payload_udp_graph,
                     throughput_graph, interval_throughput, csv)
 
-    print('{} contains {} packets ({} interesting)'.format(file_name, count, interesting_packet_count))
-    print('First packet in connection: Packet #{} {}'.format(first_pkt_ordinal, first_pkt_timestamp))
-    print(' Last packet in connection: Packet #{} {}'.format(last_pkt_ordinal, last_pkt_timestamp))
-    return tuple_pkt_data_time
-
-
-def read_pcap(client, file_name, filtering, server):
-    """
-    The analysis will first select the relevant packets thanks to the option_filter
-
-    :param client:
-    :param file_name:
-    :param filtering:
-    :param server:
-    :return:
-    """
-    first_pkt_ordinal = 0
-    first_pkt_timestamp = 0
-    last_pkt_ordinal = 0
-    last_pkt_timestamp = 0
-    count = 0
-    interesting_packet_count = 0
-    tuple_pkt_data_time = []
-    for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
-        count += 1
-
-        if option_filter(pkt_data, client, server, filtering):
-
-            interesting_packet_count += 1
-            if interesting_packet_count == 1:
-                first_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
-                first_pkt_ordinal = count
-            tuple_pkt_data_time.append((pkt_metadata.sec, pkt_data))
-            last_pkt_timestamp = [pkt_metadata.sec, pkt_metadata.usec]
-            last_pkt_ordinal = count
-    return count, first_pkt_ordinal, first_pkt_timestamp, interesting_packet_count, last_pkt_ordinal, last_pkt_timestamp, tuple_pkt_data_time
+    return packet_filter
 
 
 if __name__ == '__main__':
-    execute_config('basic.ini', 'camera_light_on_off.pcap')
+    # execute_config('basic.ini', 'camera_light_on_off.pcap')
     # execute_config('c1.ini', 'camera_movement.pcap')
 
-    #mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
-    # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
+    # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
+    mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
 
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
 

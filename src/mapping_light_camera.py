@@ -5,25 +5,25 @@ from graph import Graph
 
 
 def graph_light_camera(conf1, conf2, file):
-    data = main.execute_config(conf1, file)
-    databis = main.execute_config(conf2, file)
-    timestamp_rate = Throughput([x[0] for x in data], 1)
-    timestamp_rate_bis = Throughput([x[0] for x in databis], 1)
+    packet = main.execute_config(conf1, file)
+    packet_light = main.execute_config(conf2, file)
+    timestamp_rate = Throughput([x[0] for x in packet], 1)
+    timestamp_rate_bis = Throughput([x[0] for x in packet_light], 1)
     list_threshold = timestamp_rate_bis.check_threshold(1)
 
     # size (in second) for the interval after and before
     size = 15
     is_present = sub_array(timestamp_rate, size, list_threshold, 0, 4)
 
-    vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'rr', 'rr', "rate_vertical,", True)
+    vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'time', 'size', "Comparison light camera",
+                          True, 'camera')
     vertical_line.create_graph()
-    vertical_line.add_vertical_line(is_present)
+    vertical_line.add_vertical_line(is_present, 'light_same_room')
 
-    # vertical_line.add_data(timestamp_rate_bis.packet_per_second_tuple)
+    #for showing 2 same time
+    vertical_line.add_data(timestamp_rate_bis.packet_per_second_tuple, 'light')
 
     vertical_line.show_graph()
-
-
 
 
 def sub_array(timestamp_rate, size, time_list, shift, delay):
