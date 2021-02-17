@@ -7,6 +7,7 @@ class House:
         self.threshold_camera_up = None
         self.threshold_camera_down = None
         self.in_same_room = 0
+        self.first = True
 
     def compare_threshold_up(self, distribution):
         statistics, pvalue = stats.ttest_ind_from_stats(self.threshold_camera_up.mean, self.threshold_camera_up.std,
@@ -54,13 +55,9 @@ class House:
     def test_h0_bivalue(self, pval_1, pval_2):
         alpha = 0.05
         if pval_1 and pval_2 > alpha / 2:
-            print(pval_1)
-            print(pval_2)
             print('H0 accepted ->pattern recognized')
             return True
         else:
-            print(pval_1)
-            print(pval_2)
             print('new pattern')
             return False
 
@@ -75,9 +72,18 @@ class House:
                 self.threshold_camera_down = distribution_2
                 self.threshold_camera_up = distribution_1
             self.in_same_room = self.in_same_room + 1
+            print('increase')
             return True
         else:
-            if self.in_same_room > 0:
+            if self.first:
+                self.first = False
+            elif self.in_same_room > 0:
                 self.in_same_room = self.in_same_room - 1
+            else:
+                self.threshold_camera_down = None
+                self.threshold_camera_up = None
+                self.first = True
+                self.not_in_same_room = 0
+                print('reset threshold')
             print('not in same room')
             return False

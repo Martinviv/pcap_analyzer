@@ -14,7 +14,8 @@ def graph_light_camera(conf1, conf2, file):
 
     # size (in second) for the interval after and before
     size = 15
-    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 4)
+    # before delay of 4
+    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 6)
 
     vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'time', 'size', "Comparison light camera",
                           True, 'camera')
