@@ -11,7 +11,6 @@ def my_kde_bandwidth(obj, fac=1./5):
 
 def difference_data(data, size, delay):
     """
-    :param alpha:
     :param data:
     :param size: size of the right (or the left part of the array
     :param delay: time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition
@@ -19,6 +18,8 @@ def difference_data(data, size, delay):
     """
     x2 = np.array(data)
     if len(x2[size:2*size])-size < 0:
+        print(x2[size:2*size])
+        print(size)
         return None, None, None, None
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]
@@ -39,7 +40,7 @@ def difference_data(data, size, delay):
     distribution_2 = Distribution(x2_right_mean, x2_right_std, size_right)
 
     #print(statistics)
-    #print(pvalue)
+    print(pvalue)
 
     return statistics, pvalue, distribution_1, distribution_2
 

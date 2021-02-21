@@ -5,6 +5,7 @@ from graph import Graph
 from house import House
 from distribution import Distribution
 
+
 def graph_light_camera(conf1, conf2, file):
     packet, packet_light = main.execute_multiple_config(conf1, conf2, file)
 
@@ -15,7 +16,7 @@ def graph_light_camera(conf1, conf2, file):
     # size (in second) for the interval after and before
     size = 15
     # before delay of 4
-    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 6)
+    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 4)
 
     vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'time', 'size', "Comparison light camera",
                           True, 'camera')
@@ -45,7 +46,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
     my_house = House()
 
     for y in time:
-        if last < y-delay:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
+        if last < y-delay - 2 and abs(timestamp_rate.start-y)>size:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
             print('time')
             print(y)
             subarray = timestamp_rate.get_interval(size, y, shift)
@@ -65,6 +66,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
             # graph.throughput_graph(subarray, 'hhh', 'gg', y)
     print('threshold')
     print(my_house.in_same_room)
+    #return list_is_present
     return list_is_in_same_room
 
 
@@ -77,4 +79,3 @@ def hypothesis_check_update_threshold(list_is_present, pvalue, y):
         #print('H0 rejected')
         list_is_present.append(y)
         return False
-

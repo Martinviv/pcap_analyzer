@@ -21,7 +21,11 @@ class Throughput:
         :return: list of tuple list(x,y) where x is time and y number packets per interval
         """
         start = timestamp[0]
+
         end = timestamp[len(timestamp) - 1]
+        self.start = start
+        self.end = end
+
         packet_per_second = [0] * int(((end - start) * (1 / second)) + 1)
         real_time = list(range(start, start + len(packet_per_second), 1))
         for x in timestamp:
