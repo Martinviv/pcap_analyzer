@@ -36,20 +36,27 @@ class House:
                                                                               self.threshold_camera_down.mean) :
             stat_1, pval_1 = self.compare_threshold_down(distribution_1)
             stat_2, pval_2 = self.compare_threshold_up(distribution_2)
+            print('-----------------------')
             print(distribution_2.mean)
             print(self.threshold_camera_up.mean)
             print(distribution_1.mean)
             print(self.threshold_camera_down.mean)
-
+            print(pval_2)
+            print(pval_1)
+            print('-----------------------')
             return self.test_h0_bivalue(pval_1, pval_2)
 
         else:
             stat_1, pval_1 = self.compare_threshold_up(distribution_1)
             stat_2, pval_2 = self.compare_threshold_down(distribution_2)
+            print('-----------------------')
             print(distribution_1.mean)
             print(self.threshold_camera_up.mean)
             print(distribution_2.mean)
             print(self.threshold_camera_down.mean)
+            print(pval_2)
+            print(pval_1)
+            print('-----------------------')
             return self.test_h0_bivalue(pval_1, pval_2)
 
     def test_h0_bivalue(self, pval_1, pval_2):
@@ -58,7 +65,7 @@ class House:
             print('H0 accepted ->pattern recognized')
             return True
         else:
-            print('new pattern')
+            print('H0 rejected')
             return False
 
     def pattern_compare(self, distribution_1, distribution_2):
@@ -77,13 +84,13 @@ class House:
         else:
             if self.first:
                 self.first = False
-            elif self.in_same_room > 0:
+            elif self.in_same_room > 1:
                 self.in_same_room = self.in_same_room - 1
             else:
                 self.threshold_camera_down = None
                 self.threshold_camera_up = None
                 self.first = True
-                self.not_in_same_room = 0
+                self.in_same_room = 0
                 print('reset threshold')
-            print('not in same room')
+            print('not in same room' + str(self.in_same_room))
             return False

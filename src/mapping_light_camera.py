@@ -16,7 +16,7 @@ def graph_light_camera(conf1, conf2, file):
     # size (in second) for the interval after and before
     size = 15
     # before delay of 4
-    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 4)
+    is_present = sub_array(timestamp_rate, size, list_threshold, 0, 2)
 
     vertical_line = Graph(timestamp_rate.packet_per_second_tuple, 'time', 'size', "Comparison light camera",
                           True, 'camera')
@@ -46,7 +46,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
     my_house = House()
 
     for y in time:
-        if last < y-delay - 2 and abs(timestamp_rate.start-y)>size:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
+        if last < y-delay - 4 and abs(timestamp_rate.start-y)>size:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
             print('time')
             print(y)
             subarray = timestamp_rate.get_interval(size, y, shift)
