@@ -35,6 +35,9 @@ def option_filter(pkt_data, filtering):
 class Packets:
 
     def __init__(self, file):
+        '''
+        :param file:
+        '''
         self.file_name = file
         self.data = None
         self.size = None

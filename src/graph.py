@@ -4,6 +4,14 @@ import matplotlib.pyplot as plt
 class Graph:
 
     def __init__(self, data, leg_x, leg_y, title, is_plot, legend):
+        '''
+
+        :param data:
+        :param leg_x: legend axis x
+        :param leg_y: legend axis y
+        :param title:
+        :param is_plot:
+        '''
         self.data = data
         self.leg_x = leg_x
         self.leg_y = leg_y
@@ -20,7 +28,7 @@ class Graph:
 
     def create_graph(self):
         """
-        :return: create and show the graph
+        :return: create the graph must be call after create the object
         """
         if self.is_plot:
             self.ax.plot(self.x_val, self.y_val, label=self.legend)
@@ -45,5 +53,9 @@ class Graph:
             self.ax.axvline(xv, color='r', linestyle='--')
 
     def show_graph(self):
+        '''
+        Show the graph after its creation
+        :return:
+        '''
         self.fig.legend(loc="upper left")
         self.plt.show()

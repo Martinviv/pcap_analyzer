@@ -6,10 +6,16 @@ def cusum(data):
     :param data:
     :return: cusum value for all data
     """
-    cus = [0]
+    cus = [(0, 0)]
+    print(data)
+    data_without_time = [value[1] for value in data]
+    mean = np.mean(data_without_time)
+    std = np.std(data_without_time)
     for i in range(1, len(data)):
-        cus.append(cusum_calculation_up(data[i], np.mean(data),
-                                        cus[i-1], np.std(data)))
+        cusum_time = data[i][0], (cusum_calculation_up(data[i][1], mean,
+                                                       cus[i - 1][1], std))
+        cus.append(cusum_time)
+    cus.pop(0)
     return cus
 
 
@@ -22,7 +28,7 @@ def cusum_calculation_up(rate, mean, previous, variance):
     :return: cusum value for the rate interval
     """
     # mou 1 or 1/2 standard deviation
-    k = 0.5*variance
+    k = 0.5 * variance
     return max(0, previous + rate - mean - k)
 
 
@@ -35,7 +41,7 @@ def cusum_calculation_lo(rate, mean, previous, variance):
     :return: cusum value for the rate interval
     """
     # mou 1 or 1/2 standart deviantion
-    k = 0.5*variance
+    k = 0.5 * variance
     return max(0, previous - rate + mean - k)
 
 
@@ -46,10 +52,10 @@ def smooth(data, coefficient):
     :return: values smoothed
     """
     data_smooth = []
-    for pkt in range(len(data)-1-coefficient):
+    for pkt in range(len(data) - 1 - coefficient):
         sum_smooth = 0
         for x in range(coefficient):
-            sum_smooth = data[pkt+x]+sum_smooth
-        mean = sum_smooth/coefficient
+            sum_smooth = data[pkt + x] + sum_smooth
+        mean = sum_smooth / coefficient
         data_smooth.append(mean)
     return data_smooth

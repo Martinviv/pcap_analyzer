@@ -5,7 +5,9 @@ from graph import Graph
 from packets import Packets
 from payload_size import PayloadSize
 import mapping_light_camera
+import mapping_mvt_camera
 from scapy.layers.inet import UDP, TCP
+from scapy.all import sniff
 import time
 
 
@@ -117,18 +119,25 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
         smoothUDP.show_graph()
 
 
+def sniff_pkt():
+    pkt = sniff(iface='Wi-Fi', timeout=10)
+    print(pkt)
+
+
 if __name__ == '__main__':
     startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
     #  execute_config('c1.ini', 'camera_movement.pcap')
 
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
-
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')
+    # mapping_light_camera.graph_light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
 
-    mapping_light_camera.graph_light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
+    # mapping_mvt_camera.graph_camera('cam1.ini', 'cam2.ini', '2_cam_lg_mvt.pcap')
+    mapping_mvt_camera.cusum_search('c1.ini', 'camera_movement.pcap')
 
 
+    # sniff_pkt()
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
 
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')

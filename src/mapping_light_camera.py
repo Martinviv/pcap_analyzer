@@ -7,7 +7,7 @@ from distribution import Distribution
 
 
 def graph_light_camera(conf1, conf2, file):
-    packet, packet_light = main.execute_multiple_config(conf1, conf2, file)
+    packet, packet_light = main.execute_multiple_config("mapping_light/" + conf1, "mapping_light/" + conf2, file)
 
     timestamp_rate = Throughput([x[0] for x in packet], 1)
     timestamp_rate_bis = Throughput([x[0] for x in packet_light], 1)
