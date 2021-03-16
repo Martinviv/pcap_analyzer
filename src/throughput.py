@@ -55,3 +55,4 @@ class Throughput:
         :return: list filter with the threshold
         """
         return [x for x in self.packet_per_second_tuple if x[1] >= threshold]
+

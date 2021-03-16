@@ -59,3 +59,25 @@ def smooth(data, coefficient):
         mean = sum_smooth / coefficient
         data_smooth.append(mean)
     return data_smooth
+
+
+def generate_interval(data, threshold):
+    """
+    :param data:
+    :param threshold: find interval where all value are below this value
+    :return:list of interval where all data are over a threshold
+    """
+    up = False
+    left = 0
+    right = 0
+    list_interval = list()
+    for i in range(0, len(data)):
+        if up is False and data[i][1] >= threshold:
+            up = True
+            left = data[i][0]
+        elif data[i][1] < threshold and up is True:
+            right = data[i][0]
+            interval = (left, right)
+            list_interval.append(interval)
+            up = False
+    return list_interval

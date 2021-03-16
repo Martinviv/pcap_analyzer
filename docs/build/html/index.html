@@ -214,6 +214,13 @@
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="main.remove_payload">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">remove_payload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.remove_payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create another pcap file without TCP and UDP payload
+:return:</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-filter">
 <span id="filter-py"></span><h1>filter.py<a class="headerlink" href="#module-filter" title="Permalink to this headline">¶</a></h1>
@@ -373,9 +380,16 @@
 <code class="sig-name descname">create_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graph.Graph.create_graph" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>create and show the graph</p>
+<dd class="field-odd"><p>create the graph must be call after create the object</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graph.Graph.show_graph">
+<code class="sig-name descname">show_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#graph.Graph.show_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the graph after its creation
+:return:</p>
 </dd></dl>
 
 </dd></dl>
@@ -433,6 +447,20 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="analysis_data.generate_interval">
+<code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">generate_interval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">threshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.generate_interval" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – </p></li>
+<li><p><strong>threshold</strong> – find interval where all value are below this value</p></li>
+</ul>
+</dd>
+</dl>
+<p>:return:list of interval where all data are over a threshold</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="analysis_data.smooth">
 <code class="sig-prename descclassname">analysis_data.</code><code class="sig-name descname">smooth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">coefficient</span></em><span class="sig-paren">)</span><a class="headerlink" href="#analysis_data.smooth" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -453,11 +481,10 @@
 <span id="test-statistics-py"></span><h1>test_statistics.py<a class="headerlink" href="#module-test_statistics" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="test_statistics.difference_data">
-<code class="sig-prename descclassname">test_statistics.</code><code class="sig-name descname">difference_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">delay</span></em>, <em class="sig-param"><span class="n">alpha</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_statistics.difference_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">test_statistics.</code><code class="sig-name descname">difference_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">delay</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_statistics.difference_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>alpha</strong> – </p></li>
 <li><p><strong>data</strong> – </p></li>
 <li><p><strong>size</strong> – size of the right (or the left part of the array</p></li>
 <li><p><strong>delay</strong> – time in the second that are not take in account in the right part (to avoid irrelevant threshold during the transition</p></li>
