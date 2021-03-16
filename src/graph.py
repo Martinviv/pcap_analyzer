@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 class Graph:
 
     def __init__(self, data, leg_x, leg_y, title, is_plot, legend):
-        '''
-
+        """
         :param data:
         :param leg_x: legend axis x
         :param leg_y: legend axis y
         :param title:
         :param is_plot:
-        '''
+        """
         self.data = data
         self.leg_x = leg_x
         self.leg_y = leg_y
@@ -52,10 +51,14 @@ class Graph:
         for xv in list_vertical:
             self.ax.axvline(xv, color='r', linestyle='--')
 
+    def add_area(self, list_interval, color):
+        for xv in list_interval:
+            self.ax.axvspan(xv[0], xv[1], alpha=0.5, color =color)
+
     def show_graph(self):
-        '''
+        """
         Show the graph after its creation
         :return:
-        '''
+        """
         self.fig.legend(loc="upper left")
         self.plt.show()
