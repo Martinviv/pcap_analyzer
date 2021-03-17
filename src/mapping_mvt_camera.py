@@ -19,7 +19,6 @@ def graph_camera(conf1, conf2, file):
     cus1, cus2 = cusum_search(timestamp_rate_cam1, timestamp_rate_cam2)
 
 
-
 def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     timestamp_rate_cusum_cam1 = analysis_data.cusum(timestamp_rate_cam1.packet_per_second_tuple)
     timestamp_rate_cusum_cam2 = analysis_data.cusum(timestamp_rate_cam2.packet_per_second_tuple)
@@ -29,9 +28,16 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     acceptable_interval_cam1 = analysis_data.generate_interval(timestamp_rate_cusum_cam1, 10)
     acceptable_interval_cam2 = analysis_data.generate_interval(timestamp_rate_cusum_cam2, 10)
     line = intersections(acceptable_interval_cam1, acceptable_interval_cam2)
+
+    # Blue zone (space between the interval)
+    all_interval = acceptable_interval_cam1 + acceptable_interval_cam2
+    union_interval = union(all_interval)
+    exclusion_interval = exclusion(union_interval)
+    graph.add_area(exclusion_interval, "blue")
+
+
     graph.add_area(acceptable_interval_cam1, "red")
     graph.add_area(acceptable_interval_cam2, "green")
-
 
     # showing line superposition ------
     # list_line = list()
@@ -41,9 +47,8 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     # graph.add_vertical_line(list_line, "line")
     # -------------------------------
 
-
     # ratio is percentage are covered by the two
-    ratio = 2*(sum_interval(line))/(sum_interval(acceptable_interval_cam2)+sum_interval(acceptable_interval_cam1))
+    ratio = 2 * (sum_interval(line)) / (sum_interval(acceptable_interval_cam2) + sum_interval(acceptable_interval_cam1))
     print("ratio")
     print(ratio)
 
@@ -72,9 +77,9 @@ def intersections(a, b):
             ranges.append(middle)
 
     ri = 0
-    while ri < len(ranges)-1:
-        if ranges[ri][1] == ranges[ri+1][0]:
-            ranges[ri:ri+2] = [[ranges[ri][0], ranges[ri+1][1]]]
+    while ri < len(ranges) - 1:
+        if ranges[ri][1] == ranges[ri + 1][0]:
+            ranges[ri:ri + 2] = [[ranges[ri][0], ranges[ri + 1][1]]]
 
         ri += 1
     return ranges
@@ -85,3 +90,21 @@ def sum_interval(interval):
     for elem in interval:
         sum = elem[1] - elem[0] + sum
     return sum
+
+
+def union(a):
+    b = []
+    for begin, end in sorted(a):
+        if b and b[-1][1] >= begin - 1:
+            b[-1] = (b[-1][0], end)
+        else:
+            b.append((begin, end))
+    return b
+
+
+def exclusion(interval_list):
+    list_exclude_interval = list()
+    for i in range(0, len(interval_list) - 1):
+        elem = (interval_list[i][1], interval_list[i + 1][0])
+        list_exclude_interval.append(elem)
+    return list_exclude_interval
