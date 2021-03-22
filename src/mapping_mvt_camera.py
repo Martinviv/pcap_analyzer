@@ -32,8 +32,10 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     # Blue zone (space between the interval)
     all_interval = acceptable_interval_cam1 + acceptable_interval_cam2
     union_interval = union(all_interval)
-    exclusion_interval = exclusion(union_interval)
-    graph.add_area(exclusion_interval, "blue")
+
+    # some bug
+    #exclusion_interval = exclusion(union_interval)
+    #graph.add_area(exclusion_interval, "blue")
 
 
     graph.add_area(acceptable_interval_cam1, "red")
