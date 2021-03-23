@@ -3,6 +3,7 @@ import test_statistics
 from throughput import Throughput
 from graph import Graph
 from house import House
+import logging
 
 
 def light_camera(conf1, conf2, file):
@@ -38,7 +39,7 @@ def light_two_camera(conf1, conf2, conf3, file):
     is_with_light_cam1 = light_camera(conf2, conf1, file)
     is_with_light_cam2 = light_camera(conf3, conf1, file)
     match_between_two_camera = (2*(len(set(is_with_light_cam1) & set(is_with_light_cam2))))/(len(is_with_light_cam1+is_with_light_cam2))
-    print(match_between_two_camera)
+    print('***Percentage matching time between 2 camera *** :' + str(match_between_two_camera))
     return is_with_light_cam1, is_with_light_cam2, match_between_two_camera
 
 
@@ -61,8 +62,8 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
     for y in time:
         if last < y - delay - 4 and abs(
                 timestamp_rate.start - y) > size:  # choose arbitrarily to avoid similar graph ( in future merge the intervals)
-            print('time')
-            print(y)
+            logging.debug('time %s', y)
+
             subarray = timestamp_rate.get_interval(size, y, shift)
             statistics, pvalue, distribution_1, distribution_2 = test_statistics.difference_data(
                 [x[1] for x in subarray]
@@ -77,8 +78,7 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
                 is_room = my_house.pattern_compare(distribution_1, distribution_2)
                 if is_room:
                     list_is_in_same_room.append(y)
-    print('threshold')
-    print(my_house.in_same_room)
+    print('***Threshold*** : '+str(my_house.in_same_room))
     # return list_is_present
     return list_is_in_same_room
 

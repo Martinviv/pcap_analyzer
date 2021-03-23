@@ -142,6 +142,11 @@ def remove_payload(file):
 
 
 if __name__ == '__main__':
+
+    #uncomment to debug
+    #logger = logging.getLogger()
+    #logger.setLevel(logging.DEBUG)
+
     startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
     #  execute_config('c1.ini', 'camera_movement.pcap')
@@ -157,12 +162,12 @@ if __name__ == '__main__':
 
     # mapping_mvt_camera.cusum_search('c1.ini', 'camera_movement.pcap')
 
-    # remove_payload('data/mapping_light/' +'2_camera_same_room.pcap')
-    #mapping_light_camera.light_two_camera('li.ini', 'dlink.ini', 'xi.ini',
-    #                                      'mapping_light/cam_same_room.pcap')
-
-    mapping_mvt_camera.graph_camera('dlink.ini', 'xi.ini',
+    #remove_payload('data/mapping_light/' +'temp.pcap')
+    mapping_light_camera.light_two_camera('li.ini', 'dlink.ini', 'xi.ini',
                                           'mapping_light/cam_same_room.pcap')
+
+    #mapping_mvt_camera.graph_camera('dlink.ini', 'xi.ini',
+    #                                      'mapping_light/cam_same_room.pcap')
 
     # sniff_pkt()
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'no_same_room.pcap')
