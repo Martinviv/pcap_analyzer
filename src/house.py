@@ -1,5 +1,6 @@
 from scipy import stats
 import logging
+from distribution import Distribution
 
 class House:
 
@@ -8,6 +9,10 @@ class House:
         self.threshold_camera_down = None
         self.in_same_room = 0
         self.first = True
+
+        # to calculate
+        self.distribution_up = Distribution(None, None, None)
+        self.distribution_down = Distribution(None, None, None)
 
     def compare_threshold_up(self, distribution):
         statistics, pvalue = stats.ttest_ind_from_stats(self.threshold_camera_up.mean, self.threshold_camera_up.std,
@@ -27,9 +32,13 @@ class House:
             if abs(distribution_1.mean < distribution_2.mean):
                 self.threshold_camera_down = distribution_1
                 self.threshold_camera_up = distribution_2
+                self.distribution_down = distribution_1
+                self.distribution_up = distribution_2
             else:
                 self.threshold_camera_down = distribution_2
                 self.threshold_camera_up = distribution_1
+                self.distribution_down = distribution_2
+                self.distribution_up = distribution_1
 
         elif abs(distribution_1.mean - self.threshold_camera_down.mean) < abs(distribution_2.mean -
                                                                               self.threshold_camera_down.mean) :
@@ -64,9 +73,14 @@ class House:
             if distribution_1.mean < distribution_2.mean:
                 self.threshold_camera_down = distribution_1
                 self.threshold_camera_up = distribution_2
+                self.distribution_down.merge_two_distribution(distribution_1)
+                self.distribution_up.merge_two_distribution(distribution_2)
+
             else:
                 self.threshold_camera_down = distribution_2
                 self.threshold_camera_up = distribution_1
+                self.distribution_down.merge_two_distribution(distribution_2)
+                self.distribution_up.merge_two_distribution(distribution_1)
             self.in_same_room = self.in_same_room + 1
             logging.info('increase')
             return True
@@ -80,6 +94,8 @@ class House:
                 self.threshold_camera_up = None
                 self.first = True
                 self.in_same_room = 0
+                self.distribution_up = Distribution(None, None, None)
+                self.distribution_down = Distribution(None, None, None)
                 logging.info('reset threshold')
             logging.info('not in same room %s', self.in_same_room)
             return False

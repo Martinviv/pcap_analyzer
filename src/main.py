@@ -144,8 +144,8 @@ def remove_payload(file):
 if __name__ == '__main__':
 
     #uncomment to debug
-    #logger = logging.getLogger()
-    #logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
     startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
@@ -175,4 +175,4 @@ if __name__ == '__main__':
     # databis = execute_config('c2.ini', 'camera_on_off_tcp.pcap')
 
     endTime = time.perf_counter()
-    print("time : " + str(endTime - startTime))
+    print("time execution : " + str(endTime - startTime))

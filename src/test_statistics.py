@@ -13,7 +13,7 @@ def difference_data(data, size, delay):
     """
     x2 = np.array(data)
     if len(x2[size:2*size])-size < 0:
-        logging.debug('not enough data to continue : %s but we must have at least %s ', print(x2[size:2*size]), size)
+        logging.debug('not enough data to continue : %s but we must have at least %s ', x2[size:2*size], size)
         return None, None, None, None
     x2_left = x2[0:size]
     x2_right = x2[size+delay:2*size]

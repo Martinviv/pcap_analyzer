@@ -3,6 +3,7 @@ import test_statistics
 from throughput import Throughput
 from graph import Graph
 from house import House
+from distribution import Distribution
 import logging
 
 
@@ -79,6 +80,10 @@ def sub_array(timestamp_rate, size, time_list, shift, delay):
                 if is_room:
                     list_is_in_same_room.append(y)
     print('***Threshold*** : '+str(my_house.in_same_room))
+    print('***UP distribution*** : mean %s , std %s , number %s ' % (my_house.distribution_up.mean,
+          my_house.distribution_up.std, my_house.distribution_up.number_data))
+    print('***Down distribution*** : mean %s , std %s , number %s ' % (my_house.distribution_down.mean,
+          my_house.distribution_down.std, my_house.distribution_down.number_data))
     # return list_is_present
     return list_is_in_same_room
 
