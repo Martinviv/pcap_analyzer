@@ -1,7 +1,8 @@
 from scipy import stats
+from scipy import signal
 import numpy as np
 import logging
-from distribution import Distribution
+from src.distribution import Distribution
 
 
 def difference_data(data, size, delay):
@@ -34,3 +35,8 @@ def difference_data(data, size, delay):
     distribution_2 = Distribution(x2_right_mean, x2_right_std, size_right)
     logging.info('p_value between left and right part : %s', pvalue)
     return statistics, pvalue, distribution_1, distribution_2
+
+
+def cross_product_between_2_interval(interval_a, interval_b):
+    c =signal.correlate(interval_a,interval_b,mode='full',method='auto')
+    print(c)

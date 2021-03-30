@@ -144,8 +144,8 @@ def remove_payload(file):
 if __name__ == '__main__':
 
     #uncomment to debug
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    #logger = logging.getLogger()
+    #logger.setLevel(logging.DEBUG)
 
     startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
@@ -154,8 +154,9 @@ if __name__ == '__main__':
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')
 
+    mapping_light_camera.only_camera('dlink.ini', 'room_one_no_camera.pcap')
 
-    #mapping_light_camera.light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
+    # mapping_light_camera.light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
 
     # mapping_mvt_camera.graph_camera('cam1.ini', 'cam2.ini', 'mapping_camera_mvt/2_cam_lg_mvt_no_payload.pcap')
     # mapping_mvt_camera.graph_camera('cam1_no_same.ini', 'cam2_no_same.ini', 'mapping_camera_mvt/no_same_room.pcap')
@@ -163,8 +164,8 @@ if __name__ == '__main__':
     # mapping_mvt_camera.cusum_search('c1.ini', 'camera_movement.pcap')
 
     #remove_payload('data/mapping_light/' +'temp.pcap')
-    mapping_light_camera.light_two_camera('li.ini', 'dlink.ini', 'xi.ini',
-                                          'mapping_light/cam_same_room.pcap')
+    #mapping_light_camera.light_two_camera('li.ini', 'dlink.ini', 'xi.ini',
+     #                                     'mapping_light/cam_same_room.pcap')
 
     #mapping_mvt_camera.graph_camera('dlink.ini', 'xi.ini',
     #                                      'mapping_light/cam_same_room.pcap')

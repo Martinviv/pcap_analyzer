@@ -3,6 +3,7 @@ import test_statistics
 from throughput import Throughput
 from graph import Graph
 from house import House
+import analysis_data
 from distribution import Distribution
 import logging
 
@@ -42,6 +43,37 @@ def light_two_camera(conf1, conf2, conf3, file):
     match_between_two_camera = (2*(len(set(is_with_light_cam1) & set(is_with_light_cam2))))/(len(is_with_light_cam1+is_with_light_cam2))
     print('***Percentage matching time between 2 camera *** :' + str(match_between_two_camera))
     return is_with_light_cam1, is_with_light_cam2, match_between_two_camera
+
+def only_camera(conf1, file):
+
+    packet_cam1 = main.execute_single_config("mapping_light/" + conf1, file)
+    timestamp_rate_cam = Throughput([x[0] for x in packet_cam1], 1)
+    timestamp_rate_cusum_cam = analysis_data.cusum_up(timestamp_rate_cam.packet_per_second_tuple)
+    timestamp_rate_cusum_cam_lo = analysis_data.cusum_lo(timestamp_rate_cam.packet_per_second_tuple)
+
+    graph = Graph(timestamp_rate_cusum_cam, 'time', 'size', "camera1 cusum",
+                  True, 'camera')
+
+    acceptable_interval_cam1 = analysis_data.generate_interval(timestamp_rate_cusum_cam, 1)
+    acceptable_interval_cam1_cus_lo = analysis_data.generate_interval(timestamp_rate_cusum_cam_lo, 1)
+
+    acceptable_interval_cam1 = acceptable_interval_cam1 + acceptable_interval_cam1_cus_lo
+    # start_acceptable_interval = [x[0] for x in acceptable_interval_cam1]
+
+    acceptable_interval_cam1 = sorted(acceptable_interval_cam1, key=lambda x: x[0])
+    # size (in second) for the interval after and before
+    size = 15
+    # before delay of 2
+    is_light_and_camera = sub_array(timestamp_rate_cam, size, acceptable_interval_cam1, 0, 2)
+
+    graph_representation = Graph(timestamp_rate_cam.packet_per_second_tuple, 'time', 'size',
+                                 "Comparison light camera",
+                                 True, 'camera')
+    graph_representation.create_graph()
+    graph_representation.add_vertical_line(is_light_and_camera, 'light_same_room')
+
+    graph.create_graph()
+    graph.show_graph()
 
 
 def sub_array(timestamp_rate, size, time_list, shift, delay):

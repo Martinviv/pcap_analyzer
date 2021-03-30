@@ -20,11 +20,11 @@ def graph_camera(conf1, conf2, file):
 
 
 def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
-    timestamp_rate_cusum_cam1 = analysis_data.cusum(timestamp_rate_cam1.packet_per_second_tuple)
-    timestamp_rate_cusum_cam2 = analysis_data.cusum(timestamp_rate_cam2.packet_per_second_tuple)
+    timestamp_rate_cusum_cam1 = analysis_data.cusum_up(timestamp_rate_cam1.packet_per_second_tuple)
+    timestamp_rate_cusum_cam2 = analysis_data.cusum_up(timestamp_rate_cam2.packet_per_second_tuple)
     graph = Graph(timestamp_rate_cusum_cam1, 'time', 'size', "camera1 cusum",
                   True, 'camera')
-    graph.add_data(timestamp_rate_cusum_cam2, "camera 2 cusum")
+    graph.add_data(timestamp_rate_cusum_cam2, "camera 2")
     acceptable_interval_cam1 = analysis_data.generate_interval(timestamp_rate_cusum_cam1, 10)
     acceptable_interval_cam2 = analysis_data.generate_interval(timestamp_rate_cusum_cam2, 10)
     line = intersections(acceptable_interval_cam1, acceptable_interval_cam2)

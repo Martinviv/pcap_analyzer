@@ -1,13 +1,12 @@
 import numpy as np
 
 
-def cusum(data):
+def cusum_up(data):
     """
     :param data:
     :return: cusum value for all data
     """
     cus = [(0, 0)]
-    print(data)
     data_without_time = [value[1] for value in data]
     mean = np.mean(data_without_time)
     std = np.std(data_without_time)
@@ -16,6 +15,25 @@ def cusum(data):
                                                        cus[i - 1][1], std))
         cus.append(cusum_time)
     cus.pop(0)
+    # print(cus)
+    return cus
+
+
+def cusum_lo(data):
+    """
+    :param data:
+    :return: cusum value for all data
+    """
+    cus = [(0, 0)]
+    data_without_time = [value[1] for value in data]
+    mean = np.mean(data_without_time)
+    std = np.std(data_without_time)
+    for i in range(1, len(data)):
+        cusum_time = data[i][0], (cusum_calculation_lo(data[i][1], mean,
+                                                       cus[i - 1][1], std))
+        cus.append(cusum_time)
+    cus.pop(0)
+    # print(cus)
     return cus
 
 
