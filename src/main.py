@@ -154,12 +154,12 @@ if __name__ == '__main__':
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')
 
-    mapping_light_camera.only_camera('dlink.ini', 'room_one_no_camera.pcap')
+    #mapping_light_camera.only_camera('dlink.ini', 'room_one_no_camera.pcap')
 
     # mapping_light_camera.light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
 
     # mapping_mvt_camera.graph_camera('cam1.ini', 'cam2.ini', 'mapping_camera_mvt/2_cam_lg_mvt_no_payload.pcap')
-    # mapping_mvt_camera.graph_camera('cam1_no_same.ini', 'cam2_no_same.ini', 'mapping_camera_mvt/no_same_room.pcap')
+    mapping_mvt_camera.graph_camera('cam1_no_same.ini', 'cam2_no_same.ini', 'mapping_camera_mvt/no_same_room.pcap')
 
     # mapping_mvt_camera.cusum_search('c1.ini', 'camera_movement.pcap')
 

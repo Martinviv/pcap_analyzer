@@ -2,6 +2,7 @@ import main
 from throughput import Throughput
 from graph import Graph
 import analysis_data
+import test_statistics
 
 
 def graph_camera(conf1, conf2, file):
@@ -27,6 +28,13 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     graph.add_data(timestamp_rate_cusum_cam2, "camera 2")
     acceptable_interval_cam1 = analysis_data.generate_interval(timestamp_rate_cusum_cam1, 10)
     acceptable_interval_cam2 = analysis_data.generate_interval(timestamp_rate_cusum_cam2, 10)
+
+
+    #don't show the next graph( the graph color)
+    test_statistics.cross_product_between_2_interval(acceptable_interval_cam1[0],
+                                                     acceptable_interval_cam2[0],
+                                                     timestamp_rate_cusum_cam1,
+                                                     timestamp_rate_cusum_cam2)
     line = intersections(acceptable_interval_cam1, acceptable_interval_cam2)
 
     # Blue zone (space between the interval)
