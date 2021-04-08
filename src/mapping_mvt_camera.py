@@ -31,8 +31,8 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
 
 
     #don't show the next graph( the graph color)
-    test_statistics.cross_product_between_2_interval(acceptable_interval_cam1[0],
-                                                     acceptable_interval_cam2[0],
+    test_statistics.cross_product_between_2_interval(acceptable_interval_cam1,
+                                                     acceptable_interval_cam2,
                                                      timestamp_rate_cusum_cam1,
                                                      timestamp_rate_cusum_cam2)
     line = intersections(acceptable_interval_cam1, acceptable_interval_cam2)
