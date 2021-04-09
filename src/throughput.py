@@ -1,5 +1,5 @@
 import numpy as np
-
+import analysis_data
 
 def find_nearest(array, value):
     """
@@ -55,4 +55,10 @@ class Throughput:
         :return: list filter with the threshold
         """
         return [x for x in self.packet_per_second_tuple if x[1] >= threshold]
+
+    def smooth_result(self, size):
+        x_val = [x[0] for x in self.packet_per_second_tuple]
+        y_val = [x[1] for x in self.packet_per_second_tuple]
+        self.packet_per_second_tuple = list(zip(analysis_data.smooth(x_val, size), analysis_data.smooth(y_val, size)))
+        return list(zip(analysis_data.smooth(x_val, size), analysis_data.smooth(y_val, size)))
 

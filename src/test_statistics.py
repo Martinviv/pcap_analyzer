@@ -39,9 +39,15 @@ def difference_data(data, size, delay):
 
 
 def cross_product_between_2_interval(list_interval_a, list_interval_b, cus_a, cus_b):
-    last_before = -1000000
-    last_after = 100000
+    """
+
+    """
+    dict_shift = {}
     for interval_a in list_interval_a:
+        last_before = -1000000
+        last_before_time = None
+        last_after = 100000
+        last_after_time = None
         for interval_b in list_interval_b:
             start_a = interval_a[0]
             end_a = interval_a[1]
@@ -79,10 +85,12 @@ def cross_product_between_2_interval(list_interval_a, list_interval_b, cus_a, cu
             lags = signal.correlation_lags(len(interval_cus_a), len(interval_cus_b), mode="full")
             lagi = lags[np.argmax(c)]
             if (0 < lagi < last_after) or (0 > lagi > last_before):
-                if lagi < 0 :
+                if lagi < 0:
                     last_before = lagi
+                    last_before_time = interval_b
                 else:
                     last_after = lagi
+                    last_after_time = interval_b
                 graph_cross = Graph(interval_cus_a, 'time', 'size', "lag representation",
                     True, 'interval_a')
                 graph_cross.add_data(interval_cus_b, 'interval b')
@@ -102,8 +110,11 @@ def cross_product_between_2_interval(list_interval_a, list_interval_b, cus_a, cu
                 print("lagi", lagi)
 
             else:
-                print("we break")
+                before = (last_before_time, last_before)
+                after = (last_after_time, last_after)
+                dict_shift[interval_a] = (before, after)
                 break
-    return 5
+    print(dict_shift)
+    return dict_shift
     #return indice_max
 
