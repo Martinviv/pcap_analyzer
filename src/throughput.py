@@ -62,3 +62,19 @@ class Throughput:
         self.packet_per_second_tuple = list(zip(analysis_data.smooth(x_val, size), analysis_data.smooth(y_val, size)))
         return list(zip(analysis_data.smooth(x_val, size), analysis_data.smooth(y_val, size)))
 
+
+    def diff_result(self):
+        x_val = [x[0] for x in self.packet_per_second_tuple]
+        #y_val = [x[1]for x in self.packet_per_second_tuple]
+
+        y_val = []
+        last_val = 0
+        for x in self.packet_per_second_tuple:
+            y_val.append(x[1] - last_val)
+            last_val = x[1]
+
+
+
+        self.packet_per_second_tuple = list(zip(x_val,y_val))
+
+        return list(zip(x_val, y_val))
