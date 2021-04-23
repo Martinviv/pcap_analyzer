@@ -1,7 +1,7 @@
 import configparser
 
 import numpy
-
+import recognize_ir_pattern
 from filter import Filter
 from throughput import Throughput
 from graph import Graph
@@ -87,51 +87,6 @@ def convert_string_to_boolean_filter(config_parser, section, filter_name):
     else:
         return False
 
-
-
-def classification_value(value):
-    if value < -20:
-        return -2
-    if value < -10:
-        return -1
-
-    if value < -5:
-        return 0
-    if value < 5:
-        return 0
-
-    if value < 10:
-        return 1
-    if value < 20:
-        return 2
-    else:
-        return 3
-
-
-
-def filter_repeated(data):
-    new_data = []
-    is_present = 0
-    threshold = 5
-    for x in data:
-        if -10 < x[1] <10:
-            is_present = is_present + 1
-            if is_present > threshold :
-                is_present = is_present + 1
-            else:
-                new_data.append(x)
-        else:
-            if is_present > threshold:
-                new_data.append((0, 0))
-                new_data.append(x)
-                is_present = 0
-            else:
-                is_present = 0
-                new_data.append(x)
-    print(new_data)
-    return new_data
-
-
 def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throughput_graph, interval_throughput):
     """
     :param size_payload_udp_graph:
@@ -152,33 +107,6 @@ def option_out_data(data, size_payload_tcp_graph, size_payload_udp_graph, throug
         # for cus results
         # timestamp_rate.packet_per_second_tuple = analysis_data.cusum_lo(timestamp_rate.packet_per_second_tuple)
 
-        timestamp_rate.diff_result()
-        f = open("data.dat", "w+")
-        data_filetered = filter_repeated(timestamp_rate.packet_per_second_tuple)
-
-        f.write('\n'.join('{} {}'.format(classification_value(x[1]), x[0]) for x in data_filetered))
-        f.close()
-
-        # open file in read mode
-        file = open("data.dat", "r")
-        replaced_content = ""
-        # looping through the file
-        for line in file:
-            # stripping line break
-            line = line.strip()
-            # replacing the texts
-            new_line = line.replace("0 0", "")
-            # concatenate the new string and add an end-line break
-            replaced_content = replaced_content + new_line + "\n"
-
-        # close the file
-        file.close()
-        # Open file in write mode
-        write_file = open("data.dat", "w")
-        # overwriting the old file contents with the new/replaced content
-        write_file.write(replaced_content)
-        # close the file
-        write_file.close()
 
 
         throughput_graph = Graph(timestamp_rate.packet_per_second_tuple, 'time' + str(interval) +
@@ -234,7 +162,11 @@ if __name__ == '__main__':
 
     startTime = time.perf_counter()
     # execute_single_config('basic.ini', 'camera_light_on_off.pcap')
-    execute_single_config('c1.ini', 'on_off_infrared.pcap')
+
+    #execute_single_config('c1.ini', 'on_off_infrared.pcap')
+
+    recognize_ir_pattern.IR_pattern_finder('c1.ini', 'on_off_infrared.pcap')
+
 
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')

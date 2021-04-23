@@ -48,10 +48,10 @@ class Dataset:
         # print("items neg", self.items_neg)
 
 
-def main():
-    pos_filepath = "data.dat"  # filepath to positive class file
-    neg_filepath = "data.dat"  # filepath to negative class file
-    k = int(16)
+def main(data_file, top_k):
+    pos_filepath = data_file  # filepath to positive class file
+    neg_filepath = data_file  # filepath to negative class file
+    k = top_k
     dataset = Dataset(pos_filepath, neg_filepath)
     top_support = set()
     dict_support = {}
@@ -296,6 +296,6 @@ def main():
 
 if __name__ == "__main__":
     startTime = time.perf_counter()
-    main()
+    main("data.dat", 16)
     endTime = time.perf_counter()
     print("Time :", endTime - startTime)
