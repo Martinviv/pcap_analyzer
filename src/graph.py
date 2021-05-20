@@ -24,6 +24,8 @@ class Graph:
         self.ax = self.fig.add_subplot(111)
         self.ax.grid()
         self.plt.title(title)
+        self.plt.xlabel(leg_x)
+        self.plt.ylabel(leg_y)
 
     def create_graph(self):
         """
@@ -51,9 +53,9 @@ class Graph:
         for xv in list_vertical:
             self.ax.axvline(xv, color='r', linestyle='--')
 
-    def add_area(self, list_interval, color):
+    def add_area(self, list_interval, color, hatch):
         for xv in list_interval:
-            self.ax.axvspan(xv[0], xv[1], alpha=0.5, color =color)
+            self.ax.axvspan(xv[0], xv[1], alpha=0.5, facecolor = "None",  edgecolor='black', hatch = hatch)
 
     def show_graph(self):
         """

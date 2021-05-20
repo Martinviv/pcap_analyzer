@@ -6,8 +6,9 @@ import frequent_sequence_miner
 def IR_pattern_finder(conf1, file):
     packet_cam1 = main.execute_single_config(conf1, file)
     timestamp_rate_cam1 = Throughput([x[0] for x in packet_cam1], 1)
-    graph_cam = Graph(timestamp_rate_cam1.packet_per_second_tuple, 'time', 'size', "Comparison light camera",
-                      True, 'camera 1')
+    graph_cam = Graph(timestamp_rate_cam1.packet_per_second_tuple, 'Timestamp (seconds)', 'Packets/Second',
+                      "Traffic rate with the infrared transition detected",
+                      True, 'Camera with infrared auto')
 
 
     calculate_diff_results(timestamp_rate_cam1)

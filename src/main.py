@@ -171,7 +171,7 @@ if __name__ == '__main__':
     # recognize_ir_pattern.IR_pattern_finder('c1.ini', 'test_ir.pcap') # in auto mode this data
 
     #False positive test
-    recognize_ir_pattern.IR_pattern_finder('mapping_camera_mvt/kot_dlink.ini', 'result_kot/tris/13.pcap')  # in auto mode this data
+    recognize_ir_pattern.IR_pattern_finder('mapping_camera_mvt/kot_dlink.ini', 'result_kot/tris/10.pcap')  # in auto mode this data
 
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')
