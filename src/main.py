@@ -139,13 +139,13 @@ def sniff_pkt():
 
 
 # inspired from : https://gist.github.com/alem0lars/ca034b0644cf2512cbfb8a03b3388111#file-pcap-remove-payload-py-L1
-def remove_payload(file):
+def remove_payload(file,name):
     """
     Create another pcap file without TCP and UDP payload
     :return:
     """
-    with PcapWriter("OUTFILE") as dest:
-        with PcapReader(file) as infile:
+    with PcapWriter(name) as dest:
+        with PcapReader(file + name) as infile:
             for pkt in infile:
                 if TCP in pkt:
                     pkt[TCP].remove_payload()
@@ -165,22 +165,34 @@ if __name__ == '__main__':
 
     #execute_single_config('c1.ini', 'on_off_infrared.pcap')
 
-    recognize_ir_pattern.IR_pattern_finder('c1.ini', 'on_off_infrared.pcap')
+    # recognize_ir_pattern.IR_pattern_finder('c1.ini', 'on_off_infrared.pcap')
 
+    #false negative
+    # recognize_ir_pattern.IR_pattern_finder('c1.ini', 'test_ir.pcap') # in auto mode this data
+
+    #False positive test
+    recognize_ir_pattern.IR_pattern_finder('mapping_camera_mvt/kot_dlink.ini', 'result_kot/tris/13.pcap')  # in auto mode this data
 
     # mapping_light_camera.graph_light_camera('c3.ini', 'c4.ini', 'camera_light_on_off_room.pcap')
     # mapping_light_camera.graph_light_camera('xi.ini', 'li.ini', 'xiaomi_light_same_room.pcap')
 
     #mapping_light_camera.only_camera('dlink.ini', 'room_one_no_camera.pcap')
 
-    # mapping_light_camera.light_camera('dlink.ini', 'li.ini', 'room_one_no_camera.pcap')
+    #mapping_light_camera.light_camera('xi.ini', 'li.ini', 'result_home/11.pcap')
 
-    # mapping_mvt_camera.graph_camera('cam1.ini', 'cam2.ini', 'mapping_camera_mvt/2_cam_lg_mvt_no_payload.pcap')
-    # mapping_mvt_camera.graph_camera('cam1_no_same.ini', 'cam2_no_same.ini', 'mapping_camera_mvt/no_same_room.pcap')
+    #mapping_light_camera.light_two_camera('li.ini', 'xi.ini', 'dlink.ini', 'result_kot/2.pcap')
+
+
+
+    #mapping_mvt_camera.graph_camera( 'kot_xiaomi.ini','kot_dlink.ini', 'result_kot/sec/29.pcap')
+
+    # mapping_mvt_camera.graph_camera('kot_dlink.ini', 'kot_xiaomi.ini', 'result_kot/tris/29.pcap')
 
     # mapping_mvt_camera.cusum_search('c1.ini', 'camera_movement.pcap')
 
-    #remove_payload('data/mapping_light/' +'temp.pcap')
+    #remove_payload('data/result_kot/tris/', '10.pcap')
+
+
     #mapping_light_camera.light_two_camera('li.ini', 'dlink.ini', 'xi.ini',
      #                                     'mapping_light/cam_same_room.pcap')
 

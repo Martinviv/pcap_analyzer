@@ -12,8 +12,13 @@ def IR_pattern_finder(conf1, file):
 
     calculate_diff_results(timestamp_rate_cam1)
 
-    frequent_sequence_miner.main("data.dat", 16)
-    pattern = [3, -2, 0, 0, 0, 0, 0, 1]
+    #-Uncoment if dataset to mining data
+    #frequent_sequence_miner.main("data.dat", 16)
+
+    # on
+    pattern = [3, -2, 0, 3]
+    # pattern = [-2, 0, 1]
+
     pattern_found = find_interval_time_pattern("data.dat", pattern)
     print(pattern_found)
     graph_cam.add_vertical_line(pattern_found, 'pattern match')
@@ -66,18 +71,23 @@ def filter_repeated(data):
     new_data = []
     is_present = 0
     threshold = 5
+    size_max = 7
+    size = 0
     for x in data:
         if -10 < x[1] <10:
+            size = size +1
             is_present = is_present + 1
             if is_present > threshold :
                 is_present = is_present + 1
             else:
                 new_data.append(x)
         else:
-            if is_present > threshold:
+            size = size + 1
+            if is_present > threshold or size > size_max:
                 new_data.append((0, 0))
                 new_data.append(x)
                 is_present = 0
+                size = 0
             else:
                 is_present = 0
                 new_data.append(x)
