@@ -54,8 +54,16 @@ class Graph:
             self.ax.axvline(xv, color='r', linestyle='--')
 
     def add_area(self, list_interval, color, hatch):
+
+        if color == "blue":
+            min = 1
+            max = 0.95
+        else:
+            min = 0.95
+            max = 0.9
+
         for xv in list_interval:
-            self.ax.axvspan(xv[0], xv[1], alpha=0.5, facecolor = "None",  edgecolor='black', hatch = hatch)
+            self.ax.axvspan(xv[0], xv[1], ymin=min, ymax=max, alpha=0.5, facecolor = color)
 
     def show_graph(self):
         """

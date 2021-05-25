@@ -47,8 +47,8 @@ def cusum_search(timestamp_rate_cam1, timestamp_rate_cam2):
     #graph.add_area(exclusion_interval, "blue")
 
 
-    graph.add_area(acceptable_interval_cam1, "red","///")
-    graph.add_area(acceptable_interval_cam2, "green", "\\\\\\")
+    graph.add_area(acceptable_interval_cam1, "orange","/")
+    graph.add_area(acceptable_interval_cam2, "blue", "\\")
 
     # showing line superposition ------
     # list_line = list()
